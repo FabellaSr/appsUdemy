@@ -5,7 +5,7 @@ import { mockGifs } from './mock-data/gif.mock.ts'
 import { CustomHeader } from './shared/components/CustomHeader.tsx'
 import { SearchBar } from './shared/components/SearchBar.tsx'
 
-const [previusSearchs, setpreviusSearchs] = useState('fermin');
+//const [previusSearchs, setpreviusSearchs] = useState('fermin');
  
 const halndleTermClicked = (term: string) => {
     console.log([term]);
@@ -20,7 +20,7 @@ export const GifsApp = () => {
             <CustomHeader title='Titulos' description='descripcion' />
 
             <SearchBar 
-                descripcion='Buscar'
+                placeholder='Buscar'
                 onQuery={handleSearch}
             />
 

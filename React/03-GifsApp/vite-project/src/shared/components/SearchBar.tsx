@@ -1,22 +1,27 @@
 import { useState } from "react";
 
 interface Props {
-  descripcion: string;
+  placeholder?: string;
   onQuery: (query: string) => void;
 }
-export const SearchBar = ({ descripcion, onQuery }: Props) => {
-  const [query, setQuery] = useState('')
+export const SearchBar = ({ placeholder, onQuery }: Props) => {
+  const [query, setQuery] = useState('');
+
+  const handleSearch = () => {
+    onQuery(query);
+    setQuery('');
+  }
   return (
-    <div>
+    <div className="search-container">
+      <h1>{query}</h1>
       <input
         type="text"
-        placeholder={descripcion}
+        placeholder={placeholder}
         value={query}
-        onChange={(e) => {
-          setQuery
-        }} />
+        onChange={(e) => setQuery(e.target.value)} />
 
-      <button>{descripcion}</button>
+      <button
+        onClick={handleSearch}>{placeholder}</button>
     </div>
   )
 }
