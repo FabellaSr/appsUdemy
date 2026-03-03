@@ -6,7 +6,8 @@ interface Props {
 }
 export const SearchBar = ({ placeholder, onQuery }: Props) => {
   const [query, setQuery] = useState('');
-
+ 
+  //debounce  
   useEffect(() => {
     const timer = setTimeout(() => {
       onQuery(query);
@@ -26,14 +27,13 @@ export const SearchBar = ({ placeholder, onQuery }: Props) => {
   }
   return (
     <div className="search-container">
-      <h1>{query}</h1>
+      
       <input
         type="text"
         placeholder={placeholder}
         value={query}
         onChange={(e) => setQuery(e.target.value)} 
         onKeyDown={handleKeyDown}/>
-
       <button
         onClick={handleSearch}>{placeholder}</button>
     </div>
