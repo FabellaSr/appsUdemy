@@ -5,28 +5,40 @@ import { mockGifs } from './mock-data/gif.mock.ts'
 import { CustomHeader } from './shared/components/CustomHeader.tsx'
 import { SearchBar } from './shared/components/SearchBar.tsx'
 
-//const [previusSearchs, setpreviusSearchs] = useState('fermin');
- 
-const halndleTermClicked = (term: string) => {
-    console.log([term]);
-}
 
-const handleSearch = (query:string) => {
-    console.log({query});
-};
+
 export const GifsApp = () => {
+    const [previousSearches, setPreviusSearchs] = useState(['fermin']);
+
+    const halndleTermClicked = (term: string) => {
+        console.log([term]);
+    }
+
+    const handleSearch = (query: string = '') => {
+        //1. Validar que el query no este vacio
+        query = query.trim().toLowerCase();
+        if (query.length === 0) return;
+        //2. Agregar el query a las busquedas previas
+        if (previousSearches.includes(query)) return;
+
+        // const currentSearches = previousSearches.slice(0, 6);
+        setPreviusSearchs([query, ...previousSearches].splice(0, 7));
+       // console.log({ query });
+    };
     return (
         <>
             <CustomHeader title='Titulos' description='descripcion' />
 
-            <SearchBar 
+            <SearchBar
                 placeholder='Buscar'
                 onQuery={handleSearch}
             />
 
-            <PreviousSearches title='Busquedas previas' list={['busqueda1','busqueda2']} onLabelClicked={halndleTermClicked}/>
-
-            <GifList gifs={mockGifs}/>
+       <PreviousSearches
+        searches={previousSearches}
+        onLabelClicked={halndleTermClicked}
+      />
+            <GifList gifs={mockGifs} />
         </>
     )
 }
