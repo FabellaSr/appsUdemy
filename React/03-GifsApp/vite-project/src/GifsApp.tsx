@@ -29,6 +29,7 @@ export const GifsApp = () => {
         // console.log({ query });
         const gifs = await getGifsByQuery(query);
         setGifs(gifs);
+        console.log(gifs);
         
     };
     
@@ -45,7 +46,7 @@ export const GifsApp = () => {
                 searches={previousTerms}
                 onLabelClicked={halndleTermClicked}
             />
-            <GifList gifs={mockGifs} />
+            <GifList gifs={gifs} />
         </>
     )
 }
