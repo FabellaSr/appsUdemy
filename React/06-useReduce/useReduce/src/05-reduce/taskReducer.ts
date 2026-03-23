@@ -1,3 +1,4 @@
+import * as z from "zod/v4"
 interface Todo {
     id: number;
     text: string;
@@ -14,7 +15,20 @@ interface TaskState {
 export type TaskAction =
     { type: 'ADD_TODO', payload: string } |
     { type: 'TOGGLE_TODO', payload: number } |
-    { type: 'DELETE_TODO', payload: number }
+    { type: 'DELETE_TODO', payload: number };
+
+const TodoSchema = z.object({
+    id : z.number(),
+    text : z.string(),
+    completed : z.boolean()
+});
+
+const TaskStateScheme = z.object({
+    todos: z.array(TodoSchema),
+    length: z.number(),
+    complete: z.number(),
+    pending: z.number()
+})
 
 export const getTaskInitialState = ():TaskState => {
     const localStorageState = localStorage.getItem('task-space')
@@ -26,7 +40,16 @@ export const getTaskInitialState = ():TaskState => {
             length:0,
         }
     }
-
+    //validar mediante Zod
+    const resultado = TaskStateScheme.safeParse(JSON.parse(localStorageState));
+    if (resultado.error) {
+        return{
+            todos: [],
+            complete: 0,
+            pending:0,
+            length:0,
+        }
+    }
     return JSON.parse(localStorageState);
 
 };
