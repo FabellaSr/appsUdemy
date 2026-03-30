@@ -14,6 +14,7 @@ import { CustomJumbotron } from "@/components/custom/CustomJumbotron"
 import { HeroStats } from "@/heroes/components/HeroStats"
 import { HeroGrid } from "@/heroes/components/HeroGrid" 
 import { CustomPagination } from "@/components/custom/CustomPagination"
+import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs"
 
 
 export const HomePage = () => {
@@ -24,6 +25,7 @@ export const HomePage = () => {
       <>
         <CustomJumbotron title={"Heroes Fermin"} description="Fermin Fabella Medina" />
 
+        <CustomBreadcrumbs currentPage="Super Héroes" />
         {/* Stats Dashboard */}
         <HeroStats />
         {/* Tabs */}
