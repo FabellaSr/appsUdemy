@@ -1,12 +1,8 @@
 import { useState } from "react"
 import {
   Filter,
-  Heart,
-  ChevronLeft,
-  ChevronRight,
-  MoreHorizontal,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
+  Heart, 
+} from "lucide-react" 
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CustomJumbotron } from "@/components/custom/CustomJumbotron"
