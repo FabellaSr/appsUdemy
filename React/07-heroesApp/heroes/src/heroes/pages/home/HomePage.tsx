@@ -1,20 +1,29 @@
 import { useState } from "react"
 import {
   Filter,
-  Heart, 
-} from "lucide-react" 
+  Heart,
+} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { CustomJumbotron } from "@/components/custom/CustomJumbotron"
 
 import { HeroStats } from "@/heroes/components/HeroStats"
-import { HeroGrid } from "@/heroes/components/HeroGrid" 
+import { HeroGrid } from "@/heroes/components/HeroGrid"
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs"
-
+import { getHeroesByPage } from "@/heroes/actions/get-heroes-by-page.action"
+import { useQuery } from "@tanstack/react-query"
 
 export const HomePage = () => {
-  const [activeTab, setActiveTab] = useState<"all" | "favorites" | "heroes" | "villains">("all")
+  const [activeTab, setActiveTab] = useState<"all" | "favorites" | "heroes" | "villains">("all");
+
+
+  const { data: herosResponse } = useQuery({
+    queryKey: ["heroes"],
+    queryFn: () => getHeroesByPage(),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  })
+  console.log({ herosResponse });
 
   return (
     <>
@@ -25,7 +34,7 @@ export const HomePage = () => {
         {/* Stats Dashboard */}
         <HeroStats />
         {/* Tabs */}
-        <Tabs value={activeTab}  className="mb-8">
+        <Tabs value={activeTab} className="mb-8">
 
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="all"
@@ -46,7 +55,9 @@ export const HomePage = () => {
 
           <TabsContent value="all">
             <h1>All Characters</h1>
-            <HeroGrid />
+            <HeroGrid 
+              heroes={herosResponse?.heroes || []}
+            />
           </TabsContent>
           <TabsContent value="favorites">
             <h1>Favorite Characters</h1>
