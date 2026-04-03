@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useSearchParams } from "react-router"
+import { useQuery } from "@tanstack/react-query"
 import {
   Filter,
   Heart,
@@ -12,19 +13,24 @@ import { HeroGrid } from "@/heroes/components/HeroGrid"
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs"
 import { getHeroesByPage } from "@/heroes/actions/get-heroes-by-page.action"
-import { useQuery } from "@tanstack/react-query"
+
 
 export const HomePage = () => {
-  const [activeTab, setActiveTab] = useState<"all" | "favorites" | "heroes" | "villains">("all");
+  const [searchParams, setSearchParams] = useSearchParams();
 
-
+  //console.log({searchParams});
+  //console.log(searchParams.get('page'));
+  //console.log(searchParams.get('offset'));
+  //const [activeTab, setActiveTab] = useState<"all" | "favorites" | "heroes" | "villains">("all");
+  //console.log(searchParams.get('tab'));
+  //setSearchParams('all');
   const { data: herosResponse } = useQuery({
     queryKey: ["heroes"],
     queryFn: () => getHeroesByPage(),
     staleTime: 1000 * 60 * 5, // 5 minutes
   })
-  console.log({ herosResponse });
-
+  //console.log({ herosResponse });
+  const activeTab = searchParams.get('tab') ?? 'all';
   return (
     <>
       <>
@@ -38,24 +44,37 @@ export const HomePage = () => {
 
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="all"
-              onClick={() => setActiveTab("all")}>
+              /*onClick={() => setSearchParams("?tab=all")}>*/
+              onClick={() => setSearchParams((prev) => {
+                prev.set('tab', 'all')
+                return prev;
+              })}>
               All Characters (16)
             </TabsTrigger>
-            <TabsTrigger value="favorites" onClick={() => setActiveTab("favorites")} >
+            <TabsTrigger value="favorites" onClick={() => setSearchParams((prev) => {
+              prev.set('tab', 'favorites')
+              return prev;
+            })} >
               <Heart className="h-4 w-4" />
               Favorites (3)
             </TabsTrigger>
-            <TabsTrigger value="heroes" onClick={() => setActiveTab("heroes")}>
+            <TabsTrigger value="heroes" onClick={() => setSearchParams((prev) => {
+              prev.set('tab', 'heroes')
+              return prev;
+            })}>
               Heroes (12)
             </TabsTrigger>
-            <TabsTrigger value="villains" onClick={() => setActiveTab("villains")}>
+            <TabsTrigger value="villains" onClick={() => setSearchParams((prev) => {
+              prev.set('tab', 'villains')
+              return prev;
+            })}>
               Villains (2)
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="all">
             <h1>All Characters</h1>
-            <HeroGrid 
+            <HeroGrid
               heroes={herosResponse?.heroes || []}
             />
           </TabsContent>
