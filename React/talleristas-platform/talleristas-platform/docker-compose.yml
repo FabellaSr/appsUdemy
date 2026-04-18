@@ -1,0 +1,66 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    # Para Mac ARM (M1/M2/M3) comentá la línea de arriba y descomentá:
+    # image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: talleristas-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourStrong!Passw0rd' -No -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - talleristas-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: talleristas-backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend/src:/app/src
+      - uploads-data:/app/uploads
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    networks:
+      - talleristas-net
+    command: sh -c "npm run seed:safe && npm run start:dev"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: talleristas-frontend
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+    depends_on:
+      - backend
+    networks:
+      - talleristas-net
+
+volumes:
+  sqlserver-data:
+  uploads-data:
+
+networks:
+  talleristas-net:
+    driver: bridge
