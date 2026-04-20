@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { payments } from '../../api/endpoints';
 import type { Payment } from '../../types';
 
-export default function MyPaymentsPage() {
+export function MyPaymentsPage() {
   const [list, setList] = useState<Payment[]>([]);
   useEffect(() => { payments.list().then((r) => setList(r.data)); }, []);
 

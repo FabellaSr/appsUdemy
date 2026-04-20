@@ -1,9 +1,9 @@
 import { Routes, Route, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../auth/context/AuthContext';
 import HomePage from '../home/page/HomePage';
-import ProviderPublicPage from '../public/pages/ProviderPublicPage';
+import ProviderPublicPage from '../provider/pages/ProviderPublicPage';
 import LoginPage from '../auth/page/LoginPage';
-import DashboardPage from '../home/page/DashboardPage';
+import DashboardPage from '../panel/page/DashboardPage';
 import MyProfilePage from '../panel/page/MyProfilePage';
 import MyWorksPage from '../panel/page/MyWorksPage';
 import MyPaymentsPage from '../panel/page/MyPaymentsPage';

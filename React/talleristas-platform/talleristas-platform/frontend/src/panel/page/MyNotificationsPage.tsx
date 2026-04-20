@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { notifications } from '../../api/endpoints';
 import type { Notification } from '../../types';
 
-export default function MyNotificationsPage() {
+export function MyNotificationsPage() {
   const [list, setList] = useState<Notification[]>([]);
   const load = () => notifications.list().then((r) => setList(r.data));
   useEffect(() => { load(); }, []);

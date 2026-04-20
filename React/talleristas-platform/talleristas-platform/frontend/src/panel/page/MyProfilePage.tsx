@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { providers } from '../../api/endpoints';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../auth/context/AuthContext';
 
-export default function MyProfilePage() {
+export function MyProfilePage() {
   const { user } = useAuth();
   const [data, setData] = useState<any>(null);
   const [msg, setMsg] = useState('');

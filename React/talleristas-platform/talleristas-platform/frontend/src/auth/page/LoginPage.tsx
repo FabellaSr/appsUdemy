@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router';
+import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -14,12 +14,13 @@ export default function LoginPage() {
     e.preventDefault();
     setErr('');
     setLoading(true);
-    try {
+    try {      
       await login(email, password);
-      navigate('/dashboard');
+      navigate('/'); 
     } catch (e: any) {
+      console.log('Error en login,',e)
       setErr(e.response?.data?.message ?? 'Error de login');
-    } finally { setLoading(false); }
+    } finally { setLoading(false)}
   };
 
   return (

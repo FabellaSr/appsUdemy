@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { providers } from '../../api/endpoints';
 import type { Provider } from '../../types';
+import { Button } from '../../components/ui/button'; 
 
-export default function AdminProvidersPage() {
+export function AdminProvidersPage() {
   const [list, setList] = useState<Provider[]>([]);
   const [form, setForm] = useState({ email: '', password: '', fullName: '', trade: '', city: '', phone: '' });
   const [open, setOpen] = useState(false);
@@ -27,9 +28,9 @@ export default function AdminProvidersPage() {
     <div>
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Proveedores</h1>
-        <button onClick={() => setOpen(!open)} className="bg-brand-600 text-white px-4 py-2 rounded">
+        <Button onClick={() => setOpen(!open)} >
           {open ? 'Cancelar' : '+ Nuevo'}
-        </button>
+        </Button>
       </div>
 
       {open && (

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { payments, providers } from '../../api/endpoints';
 import type { Payment, Provider } from '../../types';
 
-export default function AdminPaymentsPage() {
+export function AdminPaymentsPage() {
   const [list, setList] = useState<Payment[]>([]);
   const [provs, setProvs] = useState<Provider[]>([]);
   const [form, setForm] = useState({ providerId: '', amount: 0, concept: '', status: 'pending' as const });

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { notifications, providers } from '../../api/endpoints';
 import type { Notification, Provider } from '../../types';
 
-export default function AdminNotificationsPage() {
+export function AdminNotificationsPage() {
   const [list, setList] = useState<Notification[]>([]);
   const [provs, setProvs] = useState<Provider[]>([]);
   const [form, setForm] = useState({ providerId: '', title: '', message: '' });

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { auth } from '../api/endpoints';
-import type { User } from '../types';
+import { auth } from '../../api/endpoints';
+import type { User } from '../../types';
 
 interface AuthCtx {
   user: User | null;

@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { Link } from 'react-router';
+import { useAuth } from '../../auth/context/AuthContext';
 
-export default function DashboardPage() {
+export function DashboardPage() {
   const { user } = useAuth();
   const isAdmin = user?.role === 'admin';
 

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { works as worksApi, uploads, fileUrl, providers as providersApi } from '../../api/endpoints';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../auth/context/AuthContext';
 import type { Work } from '../../types';
 
-export default function MyWorksPage() {
+export function MyWorksPage() {
   const { user } = useAuth();
   const [list, setList] = useState<Work[]>([]);
   const [title, setTitle] = useState('');

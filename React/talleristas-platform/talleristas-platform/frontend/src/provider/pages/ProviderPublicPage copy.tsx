@@ -1,15 +1,31 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { providers, fileUrl } from '../../api/endpoints';
 import type { Provider } from '../../types';
+import {
+  useQuery,
+} from '@tanstack/react-query'
 
 export default function ProviderPublicPage() {
   const { id } = useParams<{ id: string }>();
+
   const [provider, setProvider] = useState<Provider | null>(null);
+  //useEffect(() => { if (id) providers.get(id).then((r) => setProvider(r.data)); }, [id]);
 
-  useEffect(() => { if (id) providers.get(id).then((r) => setProvider(r.data)); }, [id]);
+    const { data: superheroData, isError } = useQuery({
+      queryKey: ['provider', id],
+      queryFn: () => providers.get(id!),
+      retry: false,
+    });
 
-  if (!provider) return <div className="text-slate-500">Cargando…</div>;
+    if (isError) {
+      return <Navigate to="/" />;
+    }
+
+    if (!superheroData) {
+      return <h3>Loading...</h3>;
+    }
+  //if (!provider) return <div className="text-slate-500">Cargando…</div>;
 
   return (
     <div className="space-y-8">
