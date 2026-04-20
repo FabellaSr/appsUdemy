@@ -123,7 +123,7 @@ La primera vez tarda varios minutos (descarga imagen de SQL Server ~1.5 GB, inst
 | `JWT_EXPIRES_IN` | Duración del token | `7d` |
 | `UPLOADS_DIR` | Directorio de uploads | `/app/uploads` |
 | `CORS_ORIGIN` | Origen permitido CORS | `http://localhost:5173` |
-
+/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "YourStrong!Passw0rd" -C
 ### Frontend (`frontend/.env`)
 
 | Variable | Descripción | Ejemplo |

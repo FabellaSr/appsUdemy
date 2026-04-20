@@ -1,7 +1,9 @@
-import { createBrowserRouter, Navigate } from 'react-router';
-import { ShopLayout, HomePage, ProveedorPage, GenderPage } from '../shop';
-import { AdminDashboardPage, AdminLayout, AdminProductPage, AdminProductsPage } from '../admin';
 import { lazy } from 'react';
+import { createBrowserRouter, Navigate } from 'react-router';
+
+import { ShopLayout, ProveedorPage, GenderPage, HomePage } from '../shop';
+import { AdminDashboardPage, AdminLayout, AdminProductPage, AdminProductsPage } from '../admin';
+
 
 const AuthLayout = lazy(() => import('../auth/layouts/AuthLayout'))
 const LoginPage = lazy(() => import('../auth/pages/login/LoginPage'))
@@ -9,24 +11,24 @@ const RegistrerPage = lazy(() => import('../auth/pages/registrer/RegistrerPage')
 
 export const appRouter = createBrowserRouter([
     //Main routes
-    {
-        path: '/',
-        element: <ShopLayout />,
-        children: [
-            {
-                index: true,
-                element: <HomePage />
-            },
-            {
-                path: 'proveedor/:idSlug',
-                element: <ProveedorPage />
-            },
-            {
-                path: 'gender/:gender',
-                element: <GenderPage />
-            }
-        ]
-    },
+  {
+    path: '/',
+    element: <ShopLayout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: 'product/:idSlug',
+        element: <ProveedorPage />,
+      },
+      {
+        path: 'gender/:gender',
+        element: <GenderPage />,
+      },
+    ],
+  },
     //Auth Routes
     {
         path: '/auth',

@@ -11,7 +11,8 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - sqlserver-data:/var/opt/mssql
+      - sqlserver-data:/var/opt/mssql   
+      - ./docker/mssql-init.sql:/scripts/mssql-init.sql
     healthcheck:
       test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'YourStrong!Passw0rd' -No -Q 'SELECT 1' || exit 1"]
       interval: 10s
