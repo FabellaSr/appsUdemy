@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { providers } from '../../api/endpoints';
+import { providers } from '../../auth/api/endpoints';
 import type { Provider } from '../../types';
 import { Button } from '../../components/ui/button'; 
 

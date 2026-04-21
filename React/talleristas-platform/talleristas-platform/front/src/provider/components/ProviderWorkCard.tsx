@@ -1,4 +1,4 @@
-import { fileUrl } from '../../api/endpoints';
+import { fileUrl } from '../../auth/api/endpoints';
 import type { Work } from '../../types';
 
 type ProviderWorkCardProps = {

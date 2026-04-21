@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { payments, providers } from '../../api/endpoints';
+import { payments, providers } from '../../auth/api/endpoints';
 import type { Payment, Provider } from '../../types';
 
 export function AdminPaymentsPage() {

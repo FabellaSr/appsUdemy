@@ -1,7 +1,7 @@
 import { useState, type FormEvent, type ComponentProps } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
 
+import { useAuth } from '../context/AuthContext'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -47,16 +47,15 @@ export function LoginForm({
     }
   }
 
-  return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
+    return (
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Ingresar</CardTitle>
+          <CardTitle>Login to your account</CardTitle>
           <CardDescription>
-            Iniciá sesión con tu email y contraseña
+            Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
-
         <CardContent>
           <form onSubmit={submit}>
             <FieldGroup>
@@ -72,22 +71,25 @@ export function LoginForm({
                   disabled={loading}
                 />
               </Field>
-
               <Field>
                 <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Contraseña</FieldLabel>
+                  <FieldLabel htmlFor="password">Password</FieldLabel>
+                  <a
+                    href="#"
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
+                    Forgot your password?
+                  </a>
                 </div>
-
-                <Input
+                <Input                  
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  disabled={loading}
-                />
+                  disabled={loading} />
               </Field>
-
+              
               {err && (
                 <Field>
                   <div className="text-sm text-red-600">{err}</div>
@@ -95,19 +97,12 @@ export function LoginForm({
               )}
 
               <Field>
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? 'Ingresando…' : 'Ingresar'}
+                <Button type="submit">Login</Button>
+                <Button variant="outline" type="button">
+                  Login with Google
                 </Button>
-              </Field>
-
-              <Field>
-                <FieldDescription className="space-y-1 text-xs">
-                  <span className="block">
-                    <b>Demo admin:</b> admin@talleristas.local / Admin123!
-                  </span>
-                  <span className="block">
-                    <b>Demo proveedor:</b> juan@talleristas.local / Proveedor123!
-                  </span>
+                <FieldDescription className="text-center">
+                  Don&apos;t have an account? <a href="#">Sign up</a>
                 </FieldDescription>
               </Field>
             </FieldGroup>

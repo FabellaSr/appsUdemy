@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { providers, fileUrl } from '../../api/endpoints';
+import { providers, fileUrl } from '../../auth/api/endpoints';
 import type { Provider } from '../../types';
 import {
   useQuery,

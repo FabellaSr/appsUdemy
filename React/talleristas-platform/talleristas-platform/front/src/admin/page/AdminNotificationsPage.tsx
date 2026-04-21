@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { notifications, providers } from '../../api/endpoints';
+import { notifications, providers } from '../../auth/api/endpoints';
 import type { Notification, Provider } from '../../types';
 
 export function AdminNotificationsPage() {

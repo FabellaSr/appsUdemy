@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { fileUrl } from '../../api/endpoints';
+import { fileUrl } from '../../auth/api/endpoints';
 import type { Provider } from '../../types';
 
 type Props = {

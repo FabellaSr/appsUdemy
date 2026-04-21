@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { providers } from '../../api/endpoints';
+import { providers } from '../../auth/api/endpoints';
 import type { Provider } from '../../types';
 import { ProviderHeader } from '../components/ProviderHeader'; 
 import { ProviderWorksGrid } from '../components/ProviderWorksGird';

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { providers } from '../../api/endpoints';
+import { providers } from '../../auth/api/endpoints';
 import { useAuth } from '../../auth/context/AuthContext';
 
 export function MyProfilePage() {

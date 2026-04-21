@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { works as worksApi, uploads, fileUrl, providers as providersApi } from '../../api/endpoints';
+import { works as worksApi, uploads, fileUrl, providers as providersApi } from '../../auth/api/endpoints';
 import { useAuth } from '../../auth/context/AuthContext';
 import type { Work } from '../../types';
 

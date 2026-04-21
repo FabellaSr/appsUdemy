@@ -1,5 +1,5 @@
 import { api, API_BASE } from './client';
-import type { Provider, Work, Payment, Notification, User } from '../types';
+import type { Provider, Work, Payment, Notification, User } from '../../types';
 
 export const auth = {
   login: (email: string, password: string) =>
