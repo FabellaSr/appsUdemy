@@ -21,7 +21,7 @@ import {
     AdminPaymentsPage,
     AdminProvidersPage
 } from '../admin'
-import { CustomMenu } from '../public/components/custom/CustomMenu';
+import { CustomMenu } from '../navigation/pages/CustomMenu';
 
 export const appRouter = createBrowserRouter([
     //Main routes
