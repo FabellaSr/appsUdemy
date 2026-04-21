@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import { RouterProvider } from 'react-router';
 import { createRoot } from 'react-dom/client'
 import { appRouter } from './routes/app.router';

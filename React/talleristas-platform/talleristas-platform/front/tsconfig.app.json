@@ -22,12 +22,10 @@
     "noFallthroughCasesInSwitch": true,
     
     /*shadcd*/
-    "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
-  }
+
   },
   "include": ["src"]
 }
