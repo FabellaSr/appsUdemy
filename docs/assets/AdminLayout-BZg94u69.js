@@ -1,1 +1,0 @@
-import{n as e,t}from"./jsx-runtime-CoWo_Ex4.js";import{S as n}from"./index-oEKv_c81.js";var r=e(),i=t(),a=()=>{let e=(0,r.c)(1),t;return e[0]===Symbol.for(`react.memo_cache_sentinel`)?(t=(0,i.jsx)(`div`,{className:`bg-green-500`,children:(0,i.jsx)(n,{})}),e[0]=t):t=e[0],t};export{a as AdminLayout,a as default};
