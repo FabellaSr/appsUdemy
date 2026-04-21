@@ -4,12 +4,12 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from '../../../components/ui/navigation-menu';
-import { cn } from '../../../lib/utils';
-import { useAuth } from '../../../auth/context/AuthContext';
-import { Button } from '../../../components/ui/button';
+} from '../../components/ui/navigation-menu';
+import { cn } from '../../lib/utils';
+import { useAuth } from '../../auth/context/AuthContext';
+import { Button } from '../../components/ui/button';
 
-export const PublicMenu = () => {
+export const PublicNavigation = () => {
   const { pathname } = useLocation();
   const { user, logout } = useAuth();
 

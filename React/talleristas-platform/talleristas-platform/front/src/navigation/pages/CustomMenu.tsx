@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router';
-import { PublicMenu } from './PublicMenu';
+import { PublicNavigation } from '../components/PublicNavigation';
 
 export const CustomMenu = () => {
   return (
@@ -9,7 +9,7 @@ export const CustomMenu = () => {
           <Link to="/" className="text-xl font-bold text-brand-700">
             Talleristas
           </Link>
-          <PublicMenu />
+          <PublicNavigation />
         </nav>
       </header>
 
