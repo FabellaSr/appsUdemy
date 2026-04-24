@@ -1,18 +1,11 @@
-import React from 'react';
-import { RouterProvider } from 'react-router';
-import { createRoot } from 'react-dom/client'
-import { appRouter } from './routes/app.router';
-import { AuthProvider } from './auth/context/AuthContext';
-import './index.css'
- 
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+
+import './index.css';
+import { ProviderApp } from './ProviderApp';
 
 createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    {/* <BrowserRouter> */}
-      <AuthProvider>
-        <RouterProvider router={appRouter} />
-         {/*<App />*/}
-      </AuthProvider>
-    {/* </BrowserRouter> */}
-  </React.StrictMode>
-)
+  <StrictMode>
+    <ProviderApp />
+  </StrictMode>
+);

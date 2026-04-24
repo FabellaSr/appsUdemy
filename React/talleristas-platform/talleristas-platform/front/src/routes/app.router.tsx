@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router';
 import { createBrowserRouter } from 'react-router';
 
 import LoginPage from '../auth/page/LoginPage';

@@ -5,10 +5,11 @@ import type { Provider } from '../../types';
 import { ProviderHeader } from '../components/ProviderHeader';
 import { ProviderWorksGrid } from '../components/ProviderWorksGird';
 import ProviderQr from '../components/ProviderQr';
- 
+import { useAuth } from '../../auth/context/AuthContext';
 
 export function ProviderPublicPage() {
   const { id } = useParams<{ id: string }>();
+  const { user } = useAuth();
   const [provider, setProvider] = useState<Provider | null>(null);
 
   useEffect(() => {
@@ -23,6 +24,8 @@ export function ProviderPublicPage() {
     return <div className="text-slate-500">Cargando…</div>;
   }
 
+  const canSeeQr = !!user && user.providerId === id;
+
   return (
     <div className="space-y-8">
       <ProviderHeader provider={provider} />
@@ -32,12 +35,14 @@ export function ProviderPublicPage() {
           <ProviderWorksGrid works={provider.works ?? []} />
         </div>
 
-        <div>
-          <ProviderQr
-            providerId={id}
-            fileName={`provider-${id}`}
-          />
-        </div>
+        {canSeeQr && (
+          <div>
+            <ProviderQr
+              providerId={id}
+              fileName={`provider-${id}`}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
