@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { providers } from '../../auth/api/endpoints';
 import type { Provider } from '../../types';
-import { ProviderHeader } from '../components/ProviderHeader'; 
+import { ProviderHeader } from '../components/ProviderHeader';
 import { ProviderWorksGrid } from '../components/ProviderWorksGird';
+import ProviderQr from '../components/ProviderQr';
+ 
 
 export function ProviderPublicPage() {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +26,19 @@ export function ProviderPublicPage() {
   return (
     <div className="space-y-8">
       <ProviderHeader provider={provider} />
-      <ProviderWorksGrid works={provider.works ?? []} />
+
+      <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
+        <div>
+          <ProviderWorksGrid works={provider.works ?? []} />
+        </div>
+
+        <div>
+          <ProviderQr
+            providerId={id}
+            fileName={`provider-${id}`}
+          />
+        </div>
+      </div>
     </div>
   );
 }
