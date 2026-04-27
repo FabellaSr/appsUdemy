@@ -23,6 +23,7 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold mb-6">Nuestros proveedores</h2>
         <ProvidersGrid list={list} loading={loading} />
       </section>
+      
     </div>
   );
 }

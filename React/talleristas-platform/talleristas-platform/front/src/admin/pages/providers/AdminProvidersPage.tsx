@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { providers } from '../../auth/api/endpoints';
-import type { Provider } from '../../types';
-import { Button } from '../../components/ui/button'; 
+import { providers } from '../../../auth/api/endpoints';
+import type { Provider } from '../../../types';
+import { Button } from '../../../components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
-export function AdminProvidersPage() {
+export const AdminProvidersPage = () => {
   const [list, setList] = useState<Provider[]>([]);
   const [form, setForm] = useState({ email: '', password: '', fullName: '', trade: '', city: '', phone: '' });
   const [open, setOpen] = useState(false);
@@ -41,30 +42,35 @@ export function AdminProvidersPage() {
               required={['email', 'password', 'fullName'].includes(k)}
               className="border border-slate-300 rounded px-3 py-2" />
           ))}
-          <button className="col-span-full bg-brand-600 text-white py-2 rounded">Crear proveedor</button>
+          <Button className="col-span-full bg-brand-600 text-white py-2 rounded">Crear proveedor</Button>
         </form>
       )}
+      
+      <Table className="bg-white p-10 shadow-xs border border-gray-200 mb-10">
+        <TableHeader>
+          <TableRow>
+            <TableHead className="text-left">Nombre</TableHead>
+            <TableHead className="text-left">Oficio</TableHead>
+            <TableHead className="text-left">Ciudad</TableHead>
+            <TableHead className="text-left">Estado</TableHead>
+            <TableHead className="text-left">Acciones</TableHead>
+          </TableRow>
+        </TableHeader>
 
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-slate-50 text-left">
-            <tr><th className="p-3">Nombre</th><th>Oficio</th><th>Ciudad</th><th>Estado</th><th></th></tr>
-          </thead>
-          <tbody>
+        <TableBody>       
             {list.map((p) => (
-              <tr key={p.id} className="border-t">
-                <td className="p-3">{p.fullName}</td>
-                <td>{p.trade}</td>
-                <td>{p.city}</td>
-                <td>{p.isActive ? '✅ Activo' : '⛔ Inactivo'}</td>
-                <td><button onClick={() => toggleActive(p)} className="text-brand-600 hover:underline">
+              <TableRow key={p.id} className="border-t">
+                <TableCell>{p.fullName}</TableCell>
+                <TableCell>{p.trade}</TableCell>
+                <TableCell>{p.city}</TableCell>
+                <TableCell>{p.isActive ? '✅ Activo' : '⛔ Inactivo'}</TableCell>
+                <TableCell><Button onClick={() => toggleActive(p)} >
                   {p.isActive ? 'Desactivar' : 'Activar'}
-                </button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+                </Button></TableCell>
+              </TableRow>
+            ))}    
+      </TableBody>
+    </Table>
+    </div >
   );
 }

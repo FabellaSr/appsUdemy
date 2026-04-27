@@ -22,6 +22,8 @@ import {
     AdminProvidersPage
 } from '../admin'
 import { CustomMenu } from '../navigation/pages/CustomMenu';
+import { AdminNotificationFormPage } from '@/admin/pages/notification/AdminNotificationFormPage';
+import { AdminNotificationHistoryPage } from '@/admin/pages/notification/AdminNotificationHistoryPage';
 
 export const appRouter = createBrowserRouter([
     //Main routes
@@ -58,9 +60,12 @@ export const appRouter = createBrowserRouter([
             {
                 element: <CustomMenu />,
                 children: [
-                    { path: 'admin/providers', element: <AdminProvidersPage /> },
-                    { path: 'admin/payments', element: <AdminPaymentsPage /> },
-                    { path: 'admin/notifications', element: <AdminNotificationsPage /> },
+                    { path: '/admin/providers', element: <AdminProvidersPage /> },
+                    { path: '/admin/payments', element: <AdminPaymentsPage /> },
+                    { path: '/admin/notifications', element: <AdminNotificationsPage /> },
+                    { path: "/admin/notifications", element: <AdminNotificationsPage />},
+                    { path: "/admin/notifications/new", element: <AdminNotificationFormPage />},
+                    { path: "/admin/notifications/history", element: <AdminNotificationHistoryPage />}
                 ],
             },
         ],

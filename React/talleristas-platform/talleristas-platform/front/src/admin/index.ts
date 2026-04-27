@@ -1,4 +1,4 @@
-export { AdminNotificationsPage } from './page/AdminNotificationsPage'
-export { AdminPaymentsPage } from './page/AdminPaymentsPage'
-export { AdminProvidersPage } from './page/AdminProvidersPage'
+export { AdminNotificationsPage } from './pages/notification/AdminNotificationsPage'
+export { AdminPaymentsPage } from './pages/payments/AdminPaymentsPage'
+export { AdminProvidersPage } from './pages/providers/AdminProvidersPage'
 

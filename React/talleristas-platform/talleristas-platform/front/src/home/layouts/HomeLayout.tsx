@@ -11,6 +11,7 @@ export const HomeLayout = () => {
                 Explorá los trabajos de nuestros proveedores y contactá directo con quien necesites.
             </p>
             <Outlet/>  
+            
         </section>     
     )
 }
