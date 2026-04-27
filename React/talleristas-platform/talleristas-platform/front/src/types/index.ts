@@ -48,3 +48,7 @@ export interface Notification {
   createdAt: string;
   provider?: Provider;
 }
+export interface TitleProps {
+  title: string;
+  subtitle: string;
+}

@@ -3,6 +3,7 @@ import { providers } from '../../../auth/api/endpoints';
 import type { Provider } from '../../../types';
 import { Button } from '../../../components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { CustomTitle } from '@/components/custom/CustomTitle';
 
 export const AdminProvidersPage = () => {
   const [list, setList] = useState<Provider[]>([]);
@@ -27,12 +28,9 @@ export const AdminProvidersPage = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Proveedores</h1>
-        <Button onClick={() => setOpen(!open)} >
-          {open ? 'Cancelar' : '+ Nuevo'}
-        </Button>
-      </div>
+      <CustomTitle
+        title="Proveedores"
+        subtitle="Centro de adminstracion de proveedores" />
 
       {open && (
         <form onSubmit={create} className="bg-white p-4 rounded-xl border border-slate-200 mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -45,7 +43,8 @@ export const AdminProvidersPage = () => {
           <Button className="col-span-full bg-brand-600 text-white py-2 rounded">Crear proveedor</Button>
         </form>
       )}
-      
+
+
       <Table className="bg-white p-10 shadow-xs border border-gray-200 mb-10">
         <TableHeader>
           <TableRow>
@@ -57,20 +56,23 @@ export const AdminProvidersPage = () => {
           </TableRow>
         </TableHeader>
 
-        <TableBody>       
-            {list.map((p) => (
-              <TableRow key={p.id} className="border-t">
-                <TableCell>{p.fullName}</TableCell>
-                <TableCell>{p.trade}</TableCell>
-                <TableCell>{p.city}</TableCell>
-                <TableCell>{p.isActive ? '✅ Activo' : '⛔ Inactivo'}</TableCell>
-                <TableCell><Button onClick={() => toggleActive(p)} >
-                  {p.isActive ? 'Desactivar' : 'Activar'}
-                </Button></TableCell>
-              </TableRow>
-            ))}    
-      </TableBody>
-    </Table>
+        <TableBody>
+          {list.map((p) => (
+            <TableRow key={p.id} className="border-t">
+              <TableCell>{p.fullName}</TableCell>
+              <TableCell>{p.trade}</TableCell>
+              <TableCell>{p.city}</TableCell>
+              <TableCell>{p.isActive ? '✅ Activo' : '⛔ Inactivo'}</TableCell>
+              <TableCell><Button onClick={() => toggleActive(p)} >
+                {p.isActive ? 'Desactivar' : 'Activar'}
+              </Button></TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Button onClick={() => setOpen(!open)} >
+        {open ? 'Cancelar' : '+ Nuevo'}
+      </Button>
     </div >
   );
 }
