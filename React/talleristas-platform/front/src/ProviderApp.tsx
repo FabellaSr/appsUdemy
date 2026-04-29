@@ -3,16 +3,21 @@ import { appRouter } from './routes/app.router';
 import { AuthProvider } from './auth/context/AuthContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ThemeProvider } from './components/theme-provider';
 
 const queryClient = new QueryClient();
 
 export const ProviderApp = () => {
   return (
+    <ThemeProvider>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={appRouter} />;
-        <ReactQueryDevtools initialIsOpen={false} />
-      </AuthProvider>
+      
+        <AuthProvider>
+          <RouterProvider router={appRouter} />;
+          <ReactQueryDevtools initialIsOpen={false} />
+        </AuthProvider>
+     
     </QueryClientProvider>
+     </ThemeProvider>
   );
 };
