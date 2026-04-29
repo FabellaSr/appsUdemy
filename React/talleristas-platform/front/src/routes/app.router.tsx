@@ -30,48 +30,49 @@ export const appRouter = createBrowserRouter([
     {
         path: '/',
         element: <CustomMenu />,
-        children: [
-            { index: true, element: <HomePage /> },
-            { path: 'providers/:id', element: <ProviderPublicPage /> },
-            { path: 'login', element: <LoginPage /> },
-            { path: '*', element: <Navigate to="/" /> }
-        ]
-    },
-    //Privadas/Proveedor
-    {
-        element: <ProtectedRoute roles={['provider', 'admin']} />,
-        children: [
-            {
-                element: <CustomMenu />,
-                children: [
-                    { path: 'dashboard', element: <DashboardPage /> },
-                    { path: 'me/profile', element: <MyProfilePage /> },
-                    { path: 'me/works', element: <MyWorksPage /> },
-                    { path: 'me/payments', element: <MyPaymentsPage /> },
-                    { path: 'me/notifications', element: <MyNotificationsPage /> },
-                ],
-            },
-        ],
-    },
-    //Privadas/Admin
-    {
-        element: <ProtectedRoute roles={['admin']} />,
-        children: [
-            {
-                element: <CustomMenu />,
-                children: [
-                    { path: '/admin/providers', element: <AdminProvidersPage /> },
-                    { path: '/admin/payments', element: <AdminPaymentsPage /> },
-                    { path: '/admin/notifications', element: <AdminNotificationsPage /> },
-                    { path: "/admin/notifications", element: <AdminNotificationsPage />},
-                    { path: "/admin/notifications/new", element: <AdminNotificationFormPage />},
-                    { path: "/admin/notifications/history", element: <AdminNotificationHistoryPage />}
-                ],
-            },
-        ],
-    },
-    {
-        path: '*',
-        element: <Navigate to="/" />
-    }
+        children: [       
+        { 
+            children: [
+                { index: true, element: <HomePage /> },
+                { path: 'providers/:id', element: <ProviderPublicPage /> },
+                { path: 'login', element: <LoginPage /> },
+                { path: '*', element: <Navigate to="/" /> }
+            ]
+        },
+        //Privadas/Proveedor
+        {
+            element: <ProtectedRoute roles={['provider', 'admin']} />,
+            children: [
+                { 
+                    children: [
+                        { path: 'dashboard', element: <DashboardPage /> },
+                        { path: 'me/profile', element: <MyProfilePage /> },
+                        { path: 'me/works', element: <MyWorksPage /> },
+                        { path: 'me/payments', element: <MyPaymentsPage /> },
+                        { path: 'me/notifications', element: <MyNotificationsPage /> },
+                    ],
+                },
+            ],
+        },
+        //Privadas/Admin
+        {
+            element: <ProtectedRoute roles={['admin']} />,
+            children: [
+                { 
+                    children: [
+                        { path: '/admin/providers', element: <AdminProvidersPage /> },
+                        { path: '/admin/payments', element: <AdminPaymentsPage /> },
+                        { path: '/admin/notifications', element: <AdminNotificationsPage /> },
+                        { path: "/admin/notifications", element: <AdminNotificationsPage />},
+                        { path: "/admin/notifications/new", element: <AdminNotificationFormPage />},
+                        { path: "/admin/notifications/history", element: <AdminNotificationHistoryPage />}
+                    ],
+                },
+            ],
+        },
+        {
+            path: '*',
+            element: <Navigate to="/" />
+        },
+    ]}
 ])

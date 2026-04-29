@@ -28,8 +28,7 @@ export const ThemeToggle = () => {
     >
       <span className="grid h-7 w-7 place-items-center rounded-full bg-primary text-primary-foreground transition-transform duration-300">
         {isDark ? <MoonIcon /> : <SunIcon />}
-      </span>
-      <span className="text-sm font-medium">{isDark ? "Oscuro" : "Claro"}</span>
+      </span> 
     </button>
   );
 };

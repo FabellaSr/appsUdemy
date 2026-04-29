@@ -24,6 +24,7 @@ import {
   Building2,
 } from "lucide-react";
 import { CollapsibleMenuGroup } from "@/components/custom/CustomCollapsibleMenuGroup";
+import { ThemeToggle } from "@/components/theme-toogle";
 
 export function AppSidebar() {
   const { pathname } = useLocation();
@@ -65,6 +66,7 @@ export function AppSidebar() {
               <Icon />
               <span>{item.label}</span>
             </Link>
+            
           </SidebarMenuButton>
         </SidebarMenuItem>
       );
@@ -78,6 +80,8 @@ export function AppSidebar() {
           <Link to="/" className="font-bold truncate">
             {collapsed ? "T" : "Talleristas"}
           </Link>
+          
+          <ThemeToggle />
           <SidebarTrigger />
         </div>
       </SidebarHeader>

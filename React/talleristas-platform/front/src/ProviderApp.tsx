@@ -9,15 +9,14 @@ const queryClient = new QueryClient();
 
 export const ProviderApp = () => {
   return (
-    <ThemeProvider>
+
     <QueryClientProvider client={queryClient}>
-      
+      <ThemeProvider>
         <AuthProvider>
           <RouterProvider router={appRouter} />;
           <ReactQueryDevtools initialIsOpen={false} />
         </AuthProvider>
-     
+      </ThemeProvider>
     </QueryClientProvider>
-     </ThemeProvider>
   );
 };
