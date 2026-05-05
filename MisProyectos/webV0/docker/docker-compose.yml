@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # Frontend - React + Vite
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:4000/api/v1
+    networks:
+      - talleristas-network
+
+  # Backend - NestJS
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+      - sqlserver
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - MONGO_URI=mongodb://mongo:27017/talleristas_auth
+      - DATABASE_URL=sqlserver://sa:TalleristasPass123!@sqlserver:1433;database=talleristas_db;trustServerCertificate=true
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=7d
+      - STORAGE_PROVIDER=${STORAGE_PROVIDER:-local}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - UPLOAD_DIR=/app/uploads
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - MAIL_FROM=${MAIL_FROM}
+      - WATERMARK_ENABLED=${WATERMARK_ENABLED:-true}
+      - WATERMARK_TEXT=${WATERMARK_TEXT:-Talleristas}
+      - WATERMARK_LOGO_PATH=${WATERMARK_LOGO_PATH}
+    volumes:
+      - backend-uploads:/app/uploads
+    networks:
+      - talleristas-network
+
+  # MongoDB - Autenticación
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - talleristas-network
+
+  # SQL Server - Datos de negocio
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=TalleristasPass123!
+      - MSSQL_PID=Express
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - talleristas-network
+
+  # LocalStack - S3 local para desarrollo (opcional)
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEFAULT_REGION=us-east-1
+    volumes:
+      - localstack-data:/var/lib/localstack
+    networks:
+      - talleristas-network
+    profiles:
+      - s3-local
+
+networks:
+  talleristas-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+  sqlserver-data:
+  backend-uploads:
+  localstack-data:

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # MongoDB - Autenticación
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - talleristas-network
+
+  # SQL Server - Datos de negocio
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=TalleristasPass123!
+      - MSSQL_PID=Express
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - talleristas-network
+
+  # LocalStack - S3 local para desarrollo
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEFAULT_REGION=us-east-1
+    volumes:
+      - localstack-data:/var/lib/localstack
+    networks:
+      - talleristas-network
+
+networks:
+  talleristas-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+  sqlserver-data:
+  localstack-data:

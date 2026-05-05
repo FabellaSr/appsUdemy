@@ -1,0 +1,209 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Manos de Oficio — Design system
+ * Paleta Burnt Sienna (tierra, cobre, madera)
+ * Tipografía editorial: Cormorant Garamond + Karla
+ * Todos los colores en oklch.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Karla:wght@300;400;500;600;700&display=swap");
+
+@theme inline {
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-sans: "Karla", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-copper: var(--copper);
+  --color-copper-foreground: var(--copper-foreground);
+  --color-ember: var(--ember);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /* Lienzo papel/arena */
+  --background: oklch(0.972 0.012 80);
+  --foreground: oklch(0.22 0.04 35);
+
+  --card: oklch(0.985 0.008 80);
+  --card-foreground: oklch(0.22 0.04 35);
+
+  --popover: oklch(0.985 0.008 80);
+  --popover-foreground: oklch(0.22 0.04 35);
+
+  /* Burnt sienna principal */
+  --primary: oklch(0.48 0.13 38);
+  --primary-foreground: oklch(0.98 0.01 80);
+
+  /* Madera quemada */
+  --secondary: oklch(0.92 0.025 70);
+  --secondary-foreground: oklch(0.28 0.06 35);
+
+  --muted: oklch(0.93 0.02 75);
+  --muted-foreground: oklch(0.45 0.04 40);
+
+  /* Acento dorado/cobre */
+  --accent: oklch(0.78 0.13 70);
+  --accent-foreground: oklch(0.22 0.06 35);
+
+  /* Cobre y ember para detalles */
+  --copper: oklch(0.65 0.15 50);
+  --copper-foreground: oklch(0.98 0.01 80);
+  --ember: oklch(0.62 0.20 35);
+
+  --destructive: oklch(0.55 0.20 25);
+  --destructive-foreground: oklch(0.98 0.01 80);
+
+  --border: oklch(0.86 0.025 65);
+  --input: oklch(0.86 0.025 65);
+  --ring: oklch(0.48 0.13 38);
+
+  --sidebar: oklch(0.97 0.012 80);
+  --sidebar-foreground: oklch(0.22 0.04 35);
+  --sidebar-primary: oklch(0.48 0.13 38);
+  --sidebar-primary-foreground: oklch(0.98 0.01 80);
+  --sidebar-accent: oklch(0.92 0.025 70);
+  --sidebar-accent-foreground: oklch(0.28 0.06 35);
+  --sidebar-border: oklch(0.86 0.025 65);
+  --sidebar-ring: oklch(0.48 0.13 38);
+
+  /* Gradientes y sombras de marca */
+  --gradient-ember: linear-gradient(135deg, oklch(0.55 0.18 38), oklch(0.65 0.18 55));
+  --gradient-fade: linear-gradient(180deg, transparent, oklch(0.15 0.04 35 / 0.85));
+  --shadow-warm: 0 20px 60px -20px oklch(0.35 0.10 35 / 0.35);
+  --shadow-soft: 0 10px 30px -15px oklch(0.30 0.08 35 / 0.25);
+}
+
+.dark {
+  --background: oklch(0.16 0.02 35);
+  --foreground: oklch(0.94 0.02 75);
+
+  --card: oklch(0.21 0.025 35);
+  --card-foreground: oklch(0.94 0.02 75);
+
+  --popover: oklch(0.21 0.025 35);
+  --popover-foreground: oklch(0.94 0.02 75);
+
+  --primary: oklch(0.70 0.15 50);
+  --primary-foreground: oklch(0.16 0.02 35);
+
+  --secondary: oklch(0.27 0.03 40);
+  --secondary-foreground: oklch(0.94 0.02 75);
+
+  --muted: oklch(0.25 0.025 38);
+  --muted-foreground: oklch(0.72 0.04 70);
+
+  --accent: oklch(0.78 0.13 70);
+  --accent-foreground: oklch(0.18 0.04 35);
+
+  --copper: oklch(0.72 0.15 55);
+  --copper-foreground: oklch(0.16 0.02 35);
+  --ember: oklch(0.68 0.20 38);
+
+  --destructive: oklch(0.62 0.20 25);
+  --destructive-foreground: oklch(0.98 0.01 80);
+
+  --border: oklch(0.30 0.03 40);
+  --input: oklch(0.30 0.03 40);
+  --ring: oklch(0.70 0.15 50);
+
+  --sidebar: oklch(0.18 0.025 35);
+  --sidebar-foreground: oklch(0.94 0.02 75);
+  --sidebar-primary: oklch(0.70 0.15 50);
+  --sidebar-primary-foreground: oklch(0.16 0.02 35);
+  --sidebar-accent: oklch(0.27 0.03 40);
+  --sidebar-accent-foreground: oklch(0.94 0.02 75);
+  --sidebar-border: oklch(0.30 0.03 40);
+  --sidebar-ring: oklch(0.70 0.15 50);
+
+  --gradient-ember: linear-gradient(135deg, oklch(0.55 0.18 38), oklch(0.72 0.16 55));
+  --gradient-fade: linear-gradient(180deg, transparent, oklch(0.10 0.02 35 / 0.95));
+  --shadow-warm: 0 20px 60px -20px oklch(0 0 0 / 0.6);
+  --shadow-soft: 0 10px 30px -15px oklch(0 0 0 / 0.4);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "ss02";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+  }
+
+  /* Pequeña marca: detalle de "etiqueta" sobre eyebrows */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--copper);
+    font-weight: 600;
+  }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+}
+
+@layer utilities {
+  .bg-gradient-ember { background-image: var(--gradient-ember); }
+  .bg-gradient-fade { background-image: var(--gradient-fade); }
+  .shadow-warm { box-shadow: var(--shadow-warm); }
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .font-display { font-family: var(--font-display); }
+  .font-sans { font-family: var(--font-sans); }
+}

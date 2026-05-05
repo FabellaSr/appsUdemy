@@ -1,0 +1,83 @@
+import { useEffect, useState } from 'react';
+import { providers } from '../../../auth/api/endpoints';
+import type { Provider } from '../../../types';
+import { Button } from '../../../components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { CustomTitle } from '@/components/custom/CustomTitle';
+import { CustomHeadTable } from '@/components/custom/CustomHeadTable';
+import { CustomHeadPage } from '@/components/custom/CustomHeadPage';
+
+export const AdminProvidersPage = () => {
+  const [list, setList] = useState<Provider[]>([]);
+  const [form, setForm] = useState({ email: '', password: '', fullName: '', trade: '', city: '', phone: '' });
+  const [open, setOpen] = useState(false);
+
+  const load = () => providers.list().then((r) => setList(r.data));
+  useEffect(() => { load(); }, []);
+
+  const create = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await providers.create(form);
+    setForm({ email: '', password: '', fullName: '', trade: '', city: '', phone: '' });
+    setOpen(false);
+    load();
+  };
+
+  const toggleActive = async (p: Provider) => {
+    await providers.update(p.id, { isActive: !p.isActive });
+    load();
+  };
+
+  return (
+      <CustomHeadPage>
+      <CustomTitle
+        title="Proveedores"
+        subtitle="Centro de adminstracion de proveedores" />
+
+      {open && (
+        <form onSubmit={create} className="p-4 rounded-xl border border-slate-200 mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {Object.keys(form).map((k) => (
+            <input key={k} placeholder={k} type={k === 'password' ? 'password' : 'text'}
+              value={(form as any)[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })}
+              required={['email', 'password', 'fullName'].includes(k)}
+              className="border border-slate-300 rounded px-3 py-2" />
+          ))}
+          <Button>Crear proveedor</Button>
+        </form>
+      )}
+      
+      <CustomHeadTable>
+      <Table >
+        <TableHeader>
+          <TableRow>
+              <TableHead className="text-left">Nombre</TableHead>
+              <TableHead className="text-left">Oficio</TableHead>
+              <TableHead className="text-left">Ciudad</TableHead>
+              <TableHead className="text-left">Estado</TableHead>
+              <TableHead className="text-left">Acciones</TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          {list.map((p) => (
+            <TableRow key={p.id} className="border-gray-200 mb-10">
+              <TableCell>{p.fullName}</TableCell>
+              <TableCell>{p.trade}</TableCell>
+              <TableCell>{p.city}</TableCell>
+              <TableCell>{p.isActive ? '✅ Activo' : '⛔ Inactivo'}</TableCell>
+              <TableCell><Button onClick={() => toggleActive(p)} >
+                {p.isActive ? 'Desactivar' : 'Activar'}
+              </Button></TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      <Button onClick={() => setOpen(!open)} >
+        {open ? 'Cancelar' : '+ Nuevo'}
+      </Button>
+    </CustomHeadTable >
+    </CustomHeadPage>
+
+  );
+}

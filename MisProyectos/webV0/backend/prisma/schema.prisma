@@ -1,0 +1,166 @@
+// Prisma Schema para SQL Server
+// Datos de negocio: perfiles, colecciones, pagos, pricing
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+// Perfil de usuario (datos extendidos, vinculado a MongoDB por mongoUserId)
+model UserProfile {
+  id           String   @id @default(uuid())
+  mongoUserId  String   @unique // Referencia al _id de MongoDB
+  businessName String   @db.NVarChar(255)
+  occupation   String   @db.NVarChar(100) // herrero, electricista, carpintero, etc.
+  description  String?  @db.NVarChar(Max)
+  phone        String?  @db.NVarChar(50)
+  address      String?  @db.NVarChar(500)
+  city         String?  @db.NVarChar(100)
+  state        String?  @db.NVarChar(100)
+  country      String   @default("México") @db.NVarChar(100)
+  website      String?  @db.NVarChar(255)
+  socialLinks  String?  @db.NVarChar(Max) // JSON string
+  featuredImage String? @db.NVarChar(500) // URL de imagen destacada
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  collections  Collection[]
+  payments     Payment[]
+
+  @@map("users_profile")
+}
+
+// Colección de fotos
+model Collection {
+  id           String           @id @default(uuid())
+  userProfileId String
+  title        String           @db.NVarChar(255)
+  description  String?          @db.NVarChar(Max)
+  status       CollectionStatus @default(DRAFT)
+  isPaid       Boolean          @default(false)
+  isApproved   Boolean          @default(false)
+  publishedAt  DateTime?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  userProfile  UserProfile       @relation(fields: [userProfileId], references: [id], onDelete: Cascade)
+  images       CollectionImage[]
+  payments     Payment[]
+
+  @@map("collections")
+}
+
+enum CollectionStatus {
+  DRAFT            // Borrador
+  PENDING_PAYMENT  // Pendiente de pago
+  PENDING_APPROVAL // Pendiente de aprobación admin
+  PUBLISHED        // Publicada
+  HIDDEN           // Oculta por el usuario
+}
+
+// Imágenes de colección
+model CollectionImage {
+  id           String   @id @default(uuid())
+  collectionId String
+  url          String   @db.NVarChar(500)
+  thumbnailUrl String?  @db.NVarChar(500)
+  originalName String   @db.NVarChar(255)
+  mimeType     String   @db.NVarChar(50)
+  size         Int
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  @@map("collection_images")
+}
+
+// Tabla de precios
+model Pricing {
+  id          String      @id @default(uuid())
+  type        PricingType
+  name        String      @db.NVarChar(100)
+  description String?     @db.NVarChar(500)
+  price       Decimal     @db.Decimal(10, 2)
+  currency    String      @default("MXN") @db.NVarChar(10)
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("pricing")
+}
+
+enum PricingType {
+  MONTHLY_MAINTENANCE // Pago mensual de mantenimiento
+  COLLECTION          // Pago por colección
+}
+
+// Registro de pagos
+model Payment {
+  id             String        @id @default(uuid())
+  userProfileId  String
+  collectionId   String?       // Null si es pago de mantenimiento
+  type           PaymentType
+  amount         Decimal       @db.Decimal(10, 2)
+  currency       String        @default("MXN") @db.NVarChar(10)
+  status         PaymentStatus @default(PENDING)
+  reference      String?       @db.NVarChar(100) // Referencia de pago
+  proofUrl       String?       @db.NVarChar(500) // Comprobante
+  notes          String?       @db.NVarChar(Max)
+  approvedBy     String?       @db.NVarChar(100) // mongoUserId del admin
+  approvedAt     DateTime?
+  rejectedReason String?       @db.NVarChar(500)
+  periodStart    DateTime?     // Para pagos mensuales
+  periodEnd      DateTime?     // Para pagos mensuales
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  userProfile    UserProfile   @relation(fields: [userProfileId], references: [id], onDelete: Cascade)
+  collection     Collection?   @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+
+  @@map("payments")
+}
+
+enum PaymentType {
+  MONTHLY_MAINTENANCE
+  COLLECTION
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// Log de emails enviados
+model EmailLog {
+  id          String   @id @default(uuid())
+  to          String   @db.NVarChar(255)
+  subject     String   @db.NVarChar(500)
+  template    String   @db.NVarChar(100)
+  status      String   @db.NVarChar(50) // sent, failed
+  errorMessage String? @db.NVarChar(Max)
+  sentAt      DateTime @default(now())
+
+  @@map("email_log")
+}
+
+// Mensajes de contacto
+model ContactMessage {
+  id              String   @id @default(uuid())
+  userProfileId   String   // Tallerista que recibe el mensaje
+  senderName      String   @db.NVarChar(255)
+  senderEmail     String   @db.NVarChar(255)
+  senderPhone     String?  @db.NVarChar(50)
+  subject         String?  @db.NVarChar(255)
+  message         String   @db.NVarChar(Max)
+  isRead          Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  @@map("contact_messages")
+}
