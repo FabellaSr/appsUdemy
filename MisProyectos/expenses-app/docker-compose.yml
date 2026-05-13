@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${SQL_SA_PASSWORD}"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -Q 'SELECT 1' || exit 1"]
+      interval: 15s
+      retries: 10
+
+  mongo:
+    image: mongo:7
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}"
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      SQL_HOST: sqlserver
+      SQL_PORT: 1433
+      SQL_USER: sa
+      SQL_PASSWORD: "${SQL_SA_PASSWORD}"
+      SQL_DB: "${SQL_DB}"
+      MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/${MONGO_DB}?authSource=admin"
+      JWT_SECRET: "${JWT_SECRET}"
+      JWT_REFRESH_SECRET: "${JWT_REFRESH_SECRET}"
+      CORS_ORIGIN: "http://localhost:5173"
+    ports:
+      - "3000:3000"
+    volumes:
+      - uploads:/app/assets/uploads
+    depends_on:
+      - sqlserver
+      - mongo
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_URL: "http://localhost:3000/api"
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  sql_data:
+  mongo_data:
+  uploads:
