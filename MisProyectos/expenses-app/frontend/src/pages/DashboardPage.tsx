@@ -1,11 +1,21 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { mockReport } from '@/services/mocks';
+import { useMonthlyReport } from '@/hooks/useReports';
+//import { mockReport } from '@/services/mocks';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis } from 'recharts';
 
 const COLORS = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#a855f7'];
 
 export default function DashboardPage() {
-  const r = mockReport;
+  //const r = mockReport;
+  const now = new Date();
+
+  const { data: r, loading } = useMonthlyReport(
+    now.getFullYear(),
+    now.getMonth() + 1
+  );
+    if (loading || !r) {
+    return <div>Cargando...</div>;
+  }
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Dashboard</h1>

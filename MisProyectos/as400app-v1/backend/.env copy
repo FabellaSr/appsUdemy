@@ -1,0 +1,9 @@
+PORT=4000
+JWT_SECRET=change-me
+MONGO_URI=mongodb://localhost:27017/as400auth
+MSSQL_HOST=localhost
+MSSQL_PORT=1433
+MSSQL_USER=sa
+MSSQL_PASSWORD=Your_strong_Pass1
+MSSQL_DB=as400tasks
+AS400_BASE_URL=http://softdesa:8052/quomrest

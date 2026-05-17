@@ -1,14 +1,14 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import MainLayout from '@/layouts/MainLayout';
-import AuthLayout from '@/layouts/AuthLayout';
-import AdminLayout from '@/layouts/AdminLayout';
+import MainLayout from '@/pages/layouts/MainLayout';
+import AuthLayout from '@/pages/layouts/AuthLayout';
+import AdminLayout from '@/pages/layouts/AdminLayout';
 import DashboardPage from '@/pages/DashboardPage';
-import ExpensesPage from '@/pages/ExpensesPage';
+import ExpensesPage from '@/pages/expenses/page/ExpensesPage';
 import ReportsPage from '@/pages/ReportsPage';
-import LoginPage from '@/pages/LoginPage';
-import RegisterPage from '@/pages/RegisterPage';
-import AdminDashboardPage from '@/pages/AdminDashboardPage';
-import MembersPage from '@/pages/MembersPage';
+import LoginPage from '@/pages/auth/page/LoginPage';
+import RegisterPage from '@/pages/auth/page/RegisterPage';
+import AdminDashboardPage from '@/pages/admin/page/AdminDashboardPage';
+import MembersPage from '@/pages/members/page/MembersPage';
 import MonthlyClosePage from '@/pages/MonthlyClosePage';
 import { ProtectedRoute } from '@/auth/ProtectedRoute';
 

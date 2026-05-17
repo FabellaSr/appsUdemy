@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
 async function main() {
-  const uri = process.env.MONGO_URI ?? 'mongodb://localhost:27017/expenses_auth';
+  const uri = process.env.MONGO_URI ?? 'mongodb://root:rootpass@localhost:27017/expenses_auth?authSource=admin';
   await mongoose.connect(uri);
   const schema = new mongoose.Schema(
     {

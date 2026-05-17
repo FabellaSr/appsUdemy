@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../../middleware/jwt-auth.guard';
 import { RolesGuard } from '../../middleware/roles.guard';
 import { Roles } from '../../middleware/roles.decorator';
 import { UserEntity } from '../users/user.entity';
+import { CreateMemberDto } from './dto/create-member.dto';
 
 @ApiTags('members')
 @ApiBearerAuth()
@@ -14,8 +15,9 @@ import { UserEntity } from '../users/user.entity';
 @Controller('members')
 export class MembersController {
   constructor(@InjectRepository(UserEntity) private repo: Repository<UserEntity>) {}
-  @Get() list() { return this.repo.find(); }
-  @Post() add(@Body() body: { email: string; name: string; role: 'ADMIN' | 'MEMBER'; authId: string }) {
+  @Get() list() { 
+    return this.repo.find(); }
+  @Post() add(@Body() body: CreateMemberDto) {
     return this.repo.save(this.repo.create(body));
   }
   @Delete(':id') remove(@Param('id') id: string) { return this.repo.delete(id); }

@@ -20,6 +20,7 @@ export class ExpensesService {
   }
 
   create(dto: CreateExpenseDto, userId: string, receiptUrl?: string) {
+    console.log("llega"+dto.amount);
     return this.repo.save(this.repo.create({ ...dto, userId: dto.userId ?? userId, receiptUrl }));
   }
 

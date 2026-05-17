@@ -25,7 +25,7 @@ export class ExpensesController {
   @Post()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('receipt', multerConfig))
-  create(@Body() dto: CreateExpenseDto, @UploadedFile() file: Express.Multer.File | undefined, @Req() req: any) {
+  create(@Body() dto: CreateExpenseDto, @UploadedFile() file: Express.Multer.File | undefined, @Req() req: any) {    
     const url = file ? `/uploads/${file.filename}` : undefined;
     return this.svc.create(dto, req.user.id, url);
   }

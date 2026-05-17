@@ -29,3 +29,9 @@ registrer
   "password": "serusui4$",
   "name":"Ivano"
 }
+{ 
+  "email": "admin2@demo.com",
+  "name": "Ivano",
+  "role": "ADMIN",
+  "password" : "ferminfabella4$"
+}

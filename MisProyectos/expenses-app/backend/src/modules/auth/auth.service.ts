@@ -24,7 +24,7 @@ export class AuthService {
       email: dto.email,
       name: dto.name,
       passwordHash: await hashPassword(dto.password),
-      role: 'MEMBER',
+      role: dto.role,
     });
     return { accessToken: this.sign(user), user: this.toPublic(user) };
   }

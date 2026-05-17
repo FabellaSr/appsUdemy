@@ -7,4 +7,5 @@ export class LoginDto {
 
 export class RegisterDto extends LoginDto {
   @IsString() name!: string;
+  @IsString() role!: string;
 }
