@@ -20,24 +20,24 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { expensesService } from '@/services/expensesService';
+import { membersService, } from '@/services/membersService';
 
-import type { ExpensesFormDialog } from '@/interfaces';
+import type { MemberFormDialog, Role } from '@/interfaces';
+import { ROLES } from '@/interfaces';
 
 
-export function ExpenseFormDialog({
+export function MemberFormDialog({
     open,
     onOpenChange,
-    categories,
     onCreated,
-}: ExpensesFormDialog) {
+}: MemberFormDialog) {
 
     const [form, setForm] = useState({
-        date: '',
-        categoryId: '',
-        concept: '',
-        amount: '',
+        email: '',
+        name: '',
+        role: 'MEMBER' as Role,
     });
+
 
     const handleChange = (
         field: string,
@@ -54,24 +54,16 @@ export function ExpenseFormDialog({
 
         try {
 
-            const formData = new FormData();
-
-            formData.append('date', form.date);
-            formData.append('categoryId', form.categoryId);
-            formData.append('concept', form.concept);
-            formData.append('amount', form.amount);
-
-            await expensesService.create(formData);
+            await membersService.add(form);
 
             await onCreated();
 
             onOpenChange(false);
 
             setForm({
-                date: '',
-                categoryId: '',
-                concept: '',
-                amount: '',
+                email: '',
+                name: '',
+                role: 'MEMBER',
             });
 
         } catch (e) {
@@ -89,102 +81,79 @@ export function ExpenseFormDialog({
                         Nuevo gasto
                     </DialogTitle>
                 </DialogHeader>
+
                 <div className="space-y-6 py-4">
+
                     <div className="space-y-2">
                         <Label>
                             Fecha
                         </Label>
                         <Input
-                            type="date"
-                            value={form.date}
+                            placeholder="Juan Pérez"
+                            value={form.name}
                             onChange={(e) =>
                                 handleChange(
-                                    'date',
+                                    'name',
                                     e.target.value
                                 )
                             }
                         />
                     </div>
+
                     <div className="space-y-2">
                         <Label>
-                            Categoría
+                            Rol
                         </Label>
                         <Select
-                            value={form.categoryId}
+                            value={form.role}
                             onValueChange={(v) =>
                                 handleChange(
-                                    'categoryId',
+                                    'role',
                                     v
                                 )
                             }
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Seleccionar categoría" />
+                                <SelectValue placeholder="Seleccionar Rol" />
                             </SelectTrigger>
                             <SelectContent>
-                                {categories.map((c) => (
+                                {ROLES.map((role) => (
                                     <SelectItem
-                                        key={c.id}
-                                        value={c.id}
+                                        key={role}
+                                        value={role}
                                     >
-                                        {c.name}
+                                        {role}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
                     </div>
+
                     <div className="space-y-2">
-
-                        <Label>
-                            Concepto
-                        </Label>
-
+                        <Label> Email </Label>
                         <Input
-                            placeholder="Ej: Compra materiales"
-                            value={form.concept}
+                            type="email"
+                            placeholder="usuario@email.com"
+                            value={form.email}
                             onChange={(e) =>
                                 handleChange(
-                                    'concept',
+                                    'email',
                                     e.target.value
                                 )
                             }
                         />
-
-                    </div>
-
-                    <div className="space-y-2">
-
-                        <Label>
-                            Monto
-                        </Label>
-
-                        <Input
-                            type="number"
-                            placeholder="0.00"
-                            value={form.amount}
-                            onChange={(e) =>
-                                handleChange(
-                                    'amount',
-                                    e.target.value
-                                )
-                            }
-                        />
-
                     </div>
 
                     <div className="flex justify-end gap-2 pt-4">
-
                         <Button
                             variant="outline"
                             onClick={() =>
                                 onOpenChange(false)
                             }
-                        >
-                            Cancelar
-                        </Button>
+                        > Cancelar </Button>
 
                         <Button onClick={handleSubmit}>
-                            Guardar gasto
+                            mIEMBRO
                         </Button>
 
                     </div>

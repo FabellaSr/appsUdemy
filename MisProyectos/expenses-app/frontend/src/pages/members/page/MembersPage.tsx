@@ -1,13 +1,30 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { mockUsers } from '@/services/mocks';
+import { useMembers } from '@/hooks/useMembers'; 
+import NotFoundPage from '@/pages/NotFoundPage';
+import { MemberLoading } from '../components/MemberLoadingComponent';
+import { MemberFormDialog } from '../components/MemberFormDialog';
+import { useState } from 'react'; 
 
 export default function MembersPage() {
+  const [open, setOpen] = useState(false);
+  const { data: items, loading, error,  reload } = useMembers();
+  if (loading) {
+    return <MemberLoading />;
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 text-red-500">
+        <NotFoundPage></NotFoundPage>
+      </div>
+    );
+  }
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Miembros</h1>
-        <Button>Agregar miembro</Button>
+        <Button onClick={() => setOpen(true)}>Agregar miembro</Button>
       </div>
       <Card>
         <CardHeader><CardTitle>Listado</CardTitle></CardHeader>
@@ -17,7 +34,7 @@ export default function MembersPage() {
               <tr><th>Nombre</th><th>Email</th><th>Rol</th><th></th></tr>
             </thead>
             <tbody>
-              {mockUsers.map((u) => (
+              {items.map((u) => (
                 <tr key={u.id} className="border-t">
                   <td className="py-2">{u.name}</td>
                   <td>{u.email}</td>
@@ -29,6 +46,11 @@ export default function MembersPage() {
           </table>
         </CardContent>
       </Card>
+      <MemberFormDialog
+        open={open}
+        onOpenChange={setOpen} 
+        onCreated={reload}
+      />
     </div>
   );
 }

@@ -6,12 +6,14 @@ import { useExpenses } from '@/hooks/useExpenses';
 import { useCategories } from '@/hooks/useCategories';
 import { ExpensesLoading } from '../components/ExpensesLoadingComponent';
 import { ExpenseFormDialog } from '../components/ExpensesFormDialog';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 export default function ExpensesPage() {
   const [open, setOpen] = useState(false);
   //const [items] = useState(mockExpenses);
   const { data: items, loading, error,  reload } = useExpenses();
   const { data:categories, loading:categoriesLoading } = useCategories();
+
   if (loading) {
     return <ExpensesLoading />;
   }
@@ -21,7 +23,7 @@ export default function ExpensesPage() {
     if (error) {
     return (
       <div className="p-6 text-red-500">
-        Error: {error}
+        <NotFoundPage></NotFoundPage>
       </div>
     );
   }

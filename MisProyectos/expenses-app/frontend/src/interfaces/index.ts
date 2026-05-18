@@ -6,6 +6,7 @@ export interface User {
   name: string;
   role: Role;
 }
+export interface Member extends User {}
 
 export interface Category {
   id: string;
@@ -43,4 +44,22 @@ export interface ReportSummary {
   byCategory: { categoryId: string; categoryName: string; total: number; pct: number }[];
   byMember: { userId: string; userName: string; total: number }[];
   recent: Expense[];
+}
+
+export interface ExpensesFormDialog {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+    categories: Category[];
+    onCreated: () => Promise<void>;
+
+}
+
+export const ROLES: Role[] = [
+  'ADMIN',
+  'MEMBER',
+];
+export interface MemberFormDialog {
+  open: boolean;
+  onOpenChange: (open: boolean) => void; 
+  onCreated: () => Promise<void>;
 }

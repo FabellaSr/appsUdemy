@@ -1,9 +1,9 @@
 import { api } from './api';
-import type { User } from '@/interfaces';
+import type { Member } from '@/interfaces';
 
 export const membersService = {
-  list: () => api.get<User[]>('/members').then((r) => r.data),
+  list: () => api.get<Member[]>('/members').then((r) => r.data),
   add: (body: { email: string; name: string; role: 'ADMIN' | 'MEMBER' }) =>
-    api.post<User>('/members', body).then((r) => r.data),
+    api.post<Member>('/members', body).then((r) => r.data),
   remove: (id: string) => api.delete(`/members/${id}`).then((r) => r.data),
 };
