@@ -1,26 +1,41 @@
 import { useState } from 'react';
+import { toast } from 'sonner'; 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button'; 
+import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/shared/EmptyState';
-import { useExpenses } from '@/hooks/useExpenses';
-import { useCategories } from '@/hooks/useCategories';
-import { ExpensesLoading } from '../components/ExpensesLoadingComponent';
 import { ExpenseFormDialog } from '../components/ExpensesFormDialog';
+
+import { useExpenses } from '@/hooks/expenses/useExpenses';
+import { useCategories } from '@/hooks/useCategories';
+
 import NotFoundPage from '@/pages/NotFoundPage';
+import type { Expense } from '@/interfaces';
+import { useCreateExpense } from '@/hooks/expenses/useCreateExpense';
 
-export default function ExpensesPage() {
-  const [open, setOpen] = useState(false);
+export const ExpensesPage = () => {
+  const [open, setOpen] = useState(false); 
   //const [items] = useState(mockExpenses);
-  const { data: items, loading, error,  reload } = useExpenses();
-  const { data:categories, loading:categoriesLoading } = useCategories();
+  const { data: expenses, error } = useExpenses();
+  const { data: categories } = useCategories();
+  const createExpenseMutation = useCreateExpense();
+  
+  const handleSubmit = async (expenseLike: Partial<Expense>) => {
+    const formData = new FormData();
+    formData.append('date', expenseLike.date!);
+    formData.append('categoryId', expenseLike.categoryId!);
+    formData.append('concept', expenseLike.concept!);
+    formData.append('amount', String(expenseLike.amount));
+    try {
+      await createExpenseMutation.mutateAsync(formData);
+      toast.success('Gasto creado correctamente');
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error('Error al crear el gasto');
+    }
+  };
 
-  if (loading) {
-    return <ExpensesLoading />;
-  }
-  if (categoriesLoading) {
-    return <ExpensesLoading />;
-  }
-    if (error) {
+  if (error) {
     return (
       <div className="p-6 text-red-500">
         <NotFoundPage></NotFoundPage>
@@ -39,7 +54,7 @@ export default function ExpensesPage() {
       <Card>
         <CardHeader><CardTitle>Listado</CardTitle></CardHeader>
         <CardContent>
-          {items.length === 0 ? (
+          {expenses.length === 0 ? (
             <EmptyState title="Sin gastos" description="Cargá el primer gasto del mes." />
           ) : (
             <div className="overflow-x-auto">
@@ -48,7 +63,7 @@ export default function ExpensesPage() {
                   <tr><th className="py-2">Fecha</th><th>Categoría</th><th>Concepto</th><th className="text-right">Monto</th></tr>
                 </thead>
                 <tbody>
-                  {items.map((e) => (
+                  {expenses.map((e) => (
                     <tr key={e.id} className="border-t">
                       <td className="py-2">{e.date}</td>
                       <td>{categories.find((c) => c.id === e.categoryId)?.name}</td>
@@ -66,8 +81,13 @@ export default function ExpensesPage() {
         open={open}
         onOpenChange={setOpen}
         categories={categories}
-        onCreated={reload}
+        onSubmit={handleSubmit}
+        isPending={createExpenseMutation.isPending}
       />
     </div>
   );
 }
+
+
+
+

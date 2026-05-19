@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
- 
 import type { Member } from '@/interfaces';
 import { membersService } from '@/services/membersService';
 

@@ -6,9 +6,11 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { AuthUser, AuthUserSchema } from './schemas/user.schema';
 import { JwtStrategy } from './jwt.strategy';
+import { MembersModule } from '../members/members.module';
 
 @Module({
   imports: [
+    MembersModule,
     PassportModule,
     MongooseModule.forFeature([{ name: AuthUser.name, schema: AuthUserSchema }]),
     JwtModule.register({

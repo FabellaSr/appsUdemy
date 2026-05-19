@@ -7,6 +7,7 @@ import { RolesGuard } from '../../middleware/roles.guard';
 import { Roles } from '../../middleware/roles.decorator';
 import { UserEntity } from '../users/user.entity';
 import { CreateMemberDto } from './dto/create-member.dto';
+import { MembersService } from './members.service';
 
 @ApiTags('members')
 @ApiBearerAuth()
@@ -14,11 +15,16 @@ import { CreateMemberDto } from './dto/create-member.dto';
 @Roles('ADMIN')
 @Controller('members')
 export class MembersController {
-  constructor(@InjectRepository(UserEntity) private repo: Repository<UserEntity>) {}
+  constructor(private membersService: MembersService,) {}
   @Get() list() { 
-    return this.repo.find(); }
-  @Post() add(@Body() body: CreateMemberDto) {
-    return this.repo.save(this.repo.create(body));
+    return this.membersService.list(); }
+  @Post()
+  add(@Body() body: CreateMemberDto) {
+    return this.membersService.create(body);
   }
-  @Delete(':id') remove(@Param('id') id: string) { return this.repo.delete(id); }
+  
+   @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.membersService.remove(id);
+  }
 }

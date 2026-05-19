@@ -13,13 +13,15 @@ export default function DashboardPage() {
     now.getFullYear(),
     now.getMonth() + 1
   );
+
+console.log(r);
     if (loading || !r) {
-    return <div>Cargando...</div>;
+    return <div>Cargando...</div>;  
   }
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Dashboard</h1>
-
+      
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader><CardTitle>Total del mes</CardTitle></CardHeader>

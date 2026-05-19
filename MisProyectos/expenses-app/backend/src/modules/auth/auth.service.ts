@@ -5,13 +5,15 @@ import { Model } from 'mongoose';
 import { AuthUser, AuthUserDocument } from './schemas/user.schema';
 import { hashPassword, comparePassword } from '../../utils/hash';
 import { LoginDto, RegisterDto } from './dto/login.dto';
+import { MembersService } from '../members/members.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(AuthUser.name) private model: Model<AuthUserDocument>,
+    private membersService: MembersService,
     private jwt: JwtService,
-  ) {}
+  ) { }
 
   private sign(user: AuthUserDocument) {
     return this.jwt.sign({ sub: user.id, email: user.email, role: user.role });
@@ -20,12 +22,26 @@ export class AuthService {
   async register(dto: RegisterDto) {
     const exists = await this.model.findOne({ email: dto.email });
     if (exists) throw new ConflictException('Email ya registrado');
+    // =========================
+    // MONGO
+    // =========================
     const user = await this.model.create({
       email: dto.email,
       name: dto.name,
       passwordHash: await hashPassword(dto.password),
       role: dto.role,
     });
+    // =========================
+    // SQL SERVER
+    // =========================
+
+    await this.membersService.create({
+      authId: user._id.toString(),
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    });
+
     return { accessToken: this.sign(user), user: this.toPublic(user) };
   }
 

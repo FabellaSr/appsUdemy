@@ -36,6 +36,7 @@ export function MemberFormDialog({
         email: '',
         name: '',
         role: 'MEMBER' as Role,
+        authId: 's'
     });
 
 
@@ -64,6 +65,7 @@ export function MemberFormDialog({
                 email: '',
                 name: '',
                 role: 'MEMBER',
+                authId:''
             });
 
         } catch (e) {
@@ -153,7 +155,7 @@ export function MemberFormDialog({
                         > Cancelar </Button>
 
                         <Button onClick={handleSubmit}>
-                            mIEMBRO
+                            Agregar
                         </Button>
 
                     </div>

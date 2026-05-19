@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import {
     Dialog,
@@ -20,64 +20,61 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { expensesService } from '@/services/expensesService';
 
-import type { ExpensesFormDialog } from '@/interfaces';
+import type { Category, Expense } from '@/interfaces';
 
+interface Props {
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
+
+    categories: Category[];
+
+    onSubmit: (expenseLike: Partial<Expense>) => Promise<void>;
+
+    isPending?: boolean;
+}
+
+interface ExpenseFormValues {
+    date: string;
+    categoryId: string;
+    concept: string;
+    amount: number;
+}
 
 export function ExpenseFormDialog({
     open,
     onOpenChange,
     categories,
-    onCreated,
-}: ExpensesFormDialog) {
-
-    const [form, setForm] = useState({
-        date: '',
-        categoryId: '',
-        concept: '',
-        amount: '',
+    onSubmit,
+    isPending,
+}: Props) {
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch,
+        reset,
+    } = useForm<ExpenseFormValues>({
+        defaultValues: {
+            date: '',
+            categoryId: '',
+            concept: '',
+            amount: 0,
+        },
     });
 
-    const handleChange = (
-        field: string,
-        value: string
+    const categoryId = watch('categoryId');
+
+    const handleFormSubmit = async (
+        values: ExpenseFormValues
     ) => {
+        await onSubmit(values);
 
-        setForm((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
+        reset();
+
+        onOpenChange(false);
     };
 
-    const handleSubmit = async () => {
-
-        try {
-
-            const formData = new FormData();
-
-            formData.append('date', form.date);
-            formData.append('categoryId', form.categoryId);
-            formData.append('concept', form.concept);
-            formData.append('amount', form.amount);
-
-            await expensesService.create(formData);
-
-            await onCreated();
-
-            onOpenChange(false);
-
-            setForm({
-                date: '',
-                categoryId: '',
-                concept: '',
-                amount: '',
-            });
-
-        } catch (e) {
-            console.error(e);
-        }
-    };
     return (
         <Dialog
             open={open}
@@ -89,38 +86,35 @@ export function ExpenseFormDialog({
                         Nuevo gasto
                     </DialogTitle>
                 </DialogHeader>
-                <div className="space-y-6 py-4">
+
+                <form
+                    onSubmit={handleSubmit(handleFormSubmit)}
+                    className="space-y-6 py-4"
+                >
                     <div className="space-y-2">
-                        <Label>
-                            Fecha
-                        </Label>
+                        <Label>Fecha</Label>
+
                         <Input
                             type="date"
-                            value={form.date}
-                            onChange={(e) =>
-                                handleChange(
-                                    'date',
-                                    e.target.value
-                                )
-                            }
+                            {...register('date', {
+                                required: true,
+                            })}
                         />
                     </div>
+
                     <div className="space-y-2">
-                        <Label>
-                            Categoría
-                        </Label>
+                        <Label>Categoría</Label>
+
                         <Select
-                            value={form.categoryId}
-                            onValueChange={(v) =>
-                                handleChange(
-                                    'categoryId',
-                                    v
-                                )
+                            value={categoryId}
+                            onValueChange={(value) =>
+                                setValue('categoryId', value)
                             }
                         >
                             <SelectTrigger>
                                 <SelectValue placeholder="Seleccionar categoría" />
                             </SelectTrigger>
+
                             <SelectContent>
                                 {categories.map((c) => (
                                     <SelectItem
@@ -133,66 +127,50 @@ export function ExpenseFormDialog({
                             </SelectContent>
                         </Select>
                     </div>
-                    <div className="space-y-2">
 
-                        <Label>
-                            Concepto
-                        </Label>
+                    <div className="space-y-2">
+                        <Label>Concepto</Label>
 
                         <Input
                             placeholder="Ej: Compra materiales"
-                            value={form.concept}
-                            onChange={(e) =>
-                                handleChange(
-                                    'concept',
-                                    e.target.value
-                                )
-                            }
+                            {...register('concept', {
+                                required: true,
+                            })}
                         />
-
                     </div>
 
                     <div className="space-y-2">
-
-                        <Label>
-                            Monto
-                        </Label>
+                        <Label>Monto</Label>
 
                         <Input
                             type="number"
                             placeholder="0.00"
-                            value={form.amount}
-                            onChange={(e) =>
-                                handleChange(
-                                    'amount',
-                                    e.target.value
-                                )
-                            }
+                            {...register('amount', {
+                                required: true,
+                                min: 1,
+                                valueAsNumber: true,
+                            })}
                         />
-
                     </div>
 
                     <div className="flex justify-end gap-2 pt-4">
-
                         <Button
+                            type="button"
                             variant="outline"
-                            onClick={() =>
-                                onOpenChange(false)
-                            }
+                            onClick={() => onOpenChange(false)}
                         >
                             Cancelar
                         </Button>
 
-                        <Button onClick={handleSubmit}>
+                        <Button
+                            type="submit"
+                            disabled={isPending}
+                        >
                             Guardar gasto
                         </Button>
-
                     </div>
-
-                </div>
-
+                </form>
             </DialogContent>
-
         </Dialog>
     );
 }

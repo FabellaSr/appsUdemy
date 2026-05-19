@@ -48,6 +48,7 @@ export interface ReportSummary {
 
 export interface ExpensesFormDialog {
     open: boolean;
+    expense: Expense;
     onOpenChange: (open: boolean) => void;
     categories: Category[];
     onCreated: () => Promise<void>;
