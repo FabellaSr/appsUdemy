@@ -9,31 +9,29 @@ export default function DashboardPage() {
   //const r = mockReport;
   const now = new Date();
 
-  const { data: r, loading } = useMonthlyReport(
+  const { data: report, loading } = useMonthlyReport(
     now.getFullYear(),
     now.getMonth() + 1
   );
-
-console.log(r);
-    if (loading || !r) {
-    return <div>Cargando...</div>;  
+  if (loading || !report) {
+    return <div>Cargando...</div>;
   }
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Dashboard</h1>
-      
+
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader><CardTitle>Total del mes</CardTitle></CardHeader>
-          <CardContent className="text-3xl font-bold">${r.totalAmount.toLocaleString()}</CardContent>
+          <CardContent className="text-3xl font-bold">${report.totalAmount.toLocaleString()}</CardContent>
         </Card>
         <Card>
           <CardHeader><CardTitle>Miembros activos</CardTitle></CardHeader>
-          <CardContent className="text-3xl font-bold">{r.byMember.length}</CardContent>
+          <CardContent className="text-3xl font-bold">{report.byMember.length}</CardContent>
         </Card>
         <Card>
           <CardHeader><CardTitle>Movimientos</CardTitle></CardHeader>
-          <CardContent className="text-3xl font-bold">{r.recent.length}</CardContent>
+          <CardContent className="text-3xl font-bold">{report.recent.length}</CardContent>
         </Card>
       </div>
 
@@ -43,8 +41,8 @@ console.log(r);
           <CardContent className="h-72">
             <ResponsiveContainer>
               <PieChart>
-                <Pie data={r.byCategory} dataKey="total" nameKey="categoryName" outerRadius={90} label>
-                  {r.byCategory.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                <Pie data={report.byCategory} dataKey="total" nameKey="categoryName" outerRadius={90} label>
+                  {report.byCategory.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                 </Pie>
                 <Tooltip />
               </PieChart>
@@ -55,7 +53,7 @@ console.log(r);
           <CardHeader><CardTitle>Ranking miembros</CardTitle></CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer>
-              <BarChart data={r.byMember}>
+              <BarChart data={report.byMember}>
                 <XAxis dataKey="userName" />
                 <YAxis />
                 <Tooltip />
