@@ -1,25 +1,62 @@
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+
+import { useMembers } from '@/hooks/useMembers';
+import { Navigate, useNavigate, useParams } from 'react-router';
+import { toast } from 'sonner';
+
+import { CustomFullScreenLoading } from '@/components/custom/CustomFullScreenLoading';
+import { Member } from '@/interfaces';
+import { MemberForm } from '../components/MemberForm'; 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useMembers } from '@/hooks/useMembers'; 
-import NotFoundPage from '@/pages/NotFoundPage';
-import { MemberLoading } from '../components/MemberLoadingComponent';
-import { MemberFormDialog } from '../components/MemberFormDialog';
-import { useState } from 'react'; 
+import { Button } from '@/components/ui/button';
+
 
 export default function MembersPage() {
   const [open, setOpen] = useState(false);
-  const { data: items, loading, error,  reload } = useMembers();
-  if (loading) {
-    return <MemberLoading />;
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const {
+    membersQuery,
+    memberQuery,
+    mutation } = useMembers(id || '');
+  const { data: members } = membersQuery;
+
+  const { data: member } = memberQuery;
+  const title = id === 'new' ? 'Nuevo miembro' : 'Editar miembro';
+  const subtitle =
+    id === 'new'
+      ? 'Aquí puedes crear un nuevo miembro.'
+      : 'Aquí puedes editar el miembro.';
+
+
+  const handleSubmit = async (memberLike: Partial<Member>) => {
+    await mutation.mutateAsync(memberLike, {
+      onSuccess: () => {
+        toast.success('Miembro actualizado correctamente', {
+          position: 'top-right',
+        });
+        navigate(`/`);
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.error('Error al actualizar el miembro');
+      },
+    });
+  };
+
+  if (memberQuery.isError) {
+    return <Navigate to="/" />;
   }
 
-  if (error) {
-    return (
-      <div className="p-6 text-red-500">
-        <NotFoundPage></NotFoundPage>
-      </div>
-    );
+  if (memberQuery.isLoading) {
+    return <CustomFullScreenLoading />;
   }
+  if (!member) {
+    return <Navigate to="/admin/members" />;
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -34,7 +71,7 @@ export default function MembersPage() {
               <tr><th>Nombre</th><th>Email</th><th>Rol</th><th></th></tr>
             </thead>
             <tbody>
-              {items.map((u) => (
+              {members?.map((u) => (
                 <tr key={u.id} className="border-t">
                   <td className="py-2">{u.name}</td>
                   <td>{u.email}</td>
@@ -46,10 +83,13 @@ export default function MembersPage() {
           </table>
         </CardContent>
       </Card>
-      <MemberFormDialog
-        open={open}
-        onOpenChange={setOpen} 
-        onCreated={reload}
+      <MemberForm
+        title={title}
+        subTitle={subtitle}
+        member={member}
+        isPending={mutation.isPending}
+        onOpenChange={setOpen}
+        onSubmit={handleSubmit}
       />
     </div>
   );

@@ -60,7 +60,20 @@ export const ROLES: Role[] = [
   'MEMBER',
 ];
 export interface MemberFormDialog {
-  open: boolean;
+  title: string;
+  subTitle: string;
   onOpenChange: (open: boolean) => void; 
-  onCreated: () => Promise<void>;
+  member: Member;
+  isPending: boolean;
+
+}
+
+export interface MemberFormProps {
+  title: string;
+  subTitle: string;
+  member: Member;
+  isPending: boolean;
+  // Methods
+  onOpenChange: (open: boolean) => void; 
+  onSubmit: (memberLike: Partial<Member>) => Promise<void>;
 }

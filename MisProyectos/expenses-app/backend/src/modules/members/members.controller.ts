@@ -18,6 +18,17 @@ export class MembersController {
   constructor(private membersService: MembersService,) {}
   @Get() list() { 
     return this.membersService.list(); }
+  @Get(':id')
+  getById(@Param('id') id: string) {
+    return this.membersService.getById(id);
+  }
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() body: CreateMemberDto,
+  ) {
+    return this.membersService.update(id, body);
+  }
   @Post()
   add(@Body() body: CreateMemberDto) {
     return this.membersService.create(body);
@@ -28,3 +39,7 @@ export class MembersController {
     return this.membersService.remove(id);
   }
 }
+function Put(arg0: string): (target: MembersController, propertyKey: "update", descriptor: TypedPropertyDescriptor<(id: string, body: CreateMemberDto) => any>) => void | TypedPropertyDescriptor<...> {
+  throw new Error('Function not implemented.');
+}
+

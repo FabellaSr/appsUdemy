@@ -27,9 +27,11 @@ import { ROLES } from '@/interfaces';
 
 
 export function MemberFormDialog({
-    open,
-    onOpenChange,
-    onCreated,
+  title,
+  subTitle,
+  product,
+  onSubmit,
+  isPending,
 }: MemberFormDialog) {
 
     const [form, setForm] = useState({

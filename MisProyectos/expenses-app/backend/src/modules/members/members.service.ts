@@ -9,7 +9,7 @@ export class MembersService {
 
   constructor(
     @InjectRepository(UserEntity)
-    private repo: Repository<UserEntity>,
+    private membersRepository: Repository<UserEntity>,
   ) {}
 
   async create(data: {
@@ -19,21 +19,32 @@ export class MembersService {
     role: 'ADMIN' | 'MEMBER';
   }) {
 
-    const member = this.repo.create({
+    const member = this.membersRepository.create({
       authId: data.authId,
       email: data.email,
       name: data.name,
       role: data.role,
     });
 
-    return this.repo.save(member);
+    return this.membersRepository.save(member);
   }
 
   async list() {
-    return this.repo.find();
+    return this.membersRepository.find();
   }
+  
+  async getById(id: string) {
+    return this.membersRepository.findOne({
+      where: { id },
+    });
+}
 
   async remove(id: string) {
-    return this.repo.delete(id);
+    return this.membersRepository.delete(id);
   }
+  async update(id: string, body: UserEntity) {
+    await this.membersRepository.update(id, body);
+
+    return this.getById(id);
+}
 }
