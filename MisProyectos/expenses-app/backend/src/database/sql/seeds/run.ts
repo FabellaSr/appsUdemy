@@ -6,7 +6,7 @@ import { CategoryEntity } from '../../../modules/categories/category.entity';
 
 async function main() {
 
-  await ensureDatabase();
+   
   await AppDataSource.initialize();
 
   console.log('llega');
@@ -39,6 +39,4 @@ main().catch((e) => {
   process.exit(1);
 });
 
-function ensureDatabase() {
-  throw new Error('Function not implemented.');
-}
+ 

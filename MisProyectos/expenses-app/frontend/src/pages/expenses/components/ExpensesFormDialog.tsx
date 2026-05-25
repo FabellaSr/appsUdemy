@@ -8,9 +8,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { Button } from '@/components/ui/button';
-
 import { Input } from '@/components/ui/input';
-
 import { Label } from '@/components/ui/label';
 
 import {
@@ -21,25 +19,8 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 
-import type { Category, Expense } from '@/interfaces';
+import type { ExpenseFormValues, ExpensesFormDialog } from '@/interfaces';
 
-interface Props {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-
-    categories: Category[];
-
-    onSubmit: (expenseLike: Partial<Expense>) => Promise<void>;
-
-    isPending?: boolean;
-}
-
-interface ExpenseFormValues {
-    date: string;
-    categoryId: string;
-    concept: string;
-    amount: number;
-}
 
 export function ExpenseFormDialog({
     open,
@@ -47,7 +28,7 @@ export function ExpenseFormDialog({
     categories,
     onSubmit,
     isPending,
-}: Props) {
+}: ExpensesFormDialog) {
     const {
         register,
         handleSubmit,
@@ -62,24 +43,18 @@ export function ExpenseFormDialog({
             amount: 0,
         },
     });
-
     const categoryId = watch('categoryId');
 
-    const handleFormSubmit = async (
-        values: ExpenseFormValues
-    ) => {
+    const handleFormSubmit = async ( values: ExpenseFormValues ) => {
         await onSubmit(values);
-
         reset();
-
         onOpenChange(false);
     };
 
     return (
         <Dialog
             open={open}
-            onOpenChange={onOpenChange}
-        >
+            onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>
@@ -89,17 +64,15 @@ export function ExpenseFormDialog({
 
                 <form
                     onSubmit={handleSubmit(handleFormSubmit)}
-                    className="space-y-6 py-4"
-                >
+                    className="space-y-6 py-4">
+                        
                     <div className="space-y-2">
                         <Label>Fecha</Label>
-
                         <Input
                             type="date"
                             {...register('date', {
                                 required: true,
-                            })}
-                        />
+                            })}/>
                     </div>
 
                     <div className="space-y-2">
@@ -157,15 +130,13 @@ export function ExpenseFormDialog({
                         <Button
                             type="button"
                             variant="outline"
-                            onClick={() => onOpenChange(false)}
-                        >
+                            onClick={() => onOpenChange(false)}>
                             Cancelar
                         </Button>
 
                         <Button
                             type="submit"
-                            disabled={isPending}
-                        >
+                            disabled={isPending}>
                             Guardar gasto
                         </Button>
                     </div>

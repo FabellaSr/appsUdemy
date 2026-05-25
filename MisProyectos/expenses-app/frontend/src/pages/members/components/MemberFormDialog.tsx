@@ -1,79 +1,51 @@
-import { useState } from 'react';
-
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-
 import { Button } from '@/components/ui/button';
-
 import { Input } from '@/components/ui/input';
-
 import { Label } from '@/components/ui/label';
-
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
-import { membersService, } from '@/services/membersService';
-
-import type { MemberFormDialog, Role } from '@/interfaces';
+} from '@/components/ui/select'; 
+import type { MemberFormDialog, MemberFormValues, Role } from '@/interfaces';
 import { ROLES } from '@/interfaces';
+import { useForm } from 'react-hook-form';
+
 
 
 export function MemberFormDialog({
-  title,
-  subTitle,
-  product,
-  onSubmit,
-  isPending,
+    open,
+    onOpenChange, 
+    onSubmit,
+    isPending,
 }: MemberFormDialog) {
 
-    const [form, setForm] = useState({
-        email: '',
-        name: '',
-        role: 'MEMBER' as Role,
-        authId: 's'
-    });
-
-
-    const handleChange = (
-        field: string,
-        value: string
-    ) => {
-
-        setForm((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-    };
-
-    const handleSubmit = async () => {
-
-        try {
-
-            await membersService.add(form);
-
-            await onCreated();
-
-            onOpenChange(false);
-
-            setForm({
+    const {
+        register,
+        handleSubmit, 
+        reset,
+    } = useForm<MemberFormValues>({
+        defaultValues: {
                 email: '',
                 name: '',
-                role: 'MEMBER',
-                authId:''
-            });
+                role: 'MEMBER' as Role,
+                authId: ''
+        },
+    });
 
-        } catch (e) {
-            console.error(e);
-        }
+    const handleFormSubmit = async ( values: MemberFormValues ) => {
+        await onSubmit(values);
+        reset();
+        onOpenChange(false);
     };
+
     return (
         <Dialog
             open={open}
@@ -82,40 +54,31 @@ export function MemberFormDialog({
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>
-                        Nuevo gasto
+                        Nuevo Miembro
                     </DialogTitle>
                 </DialogHeader>
-
-                <div className="space-y-6 py-4">
-
+                <form
+                    onSubmit={handleSubmit(handleFormSubmit)}
+                    className="space-y-6 py-4">
                     <div className="space-y-2">
-                        <Label>
-                            Fecha
+                        <Label> 
+                            Nombre
                         </Label>
                         <Input
                             placeholder="Juan Pérez"
-                            value={form.name}
-                            onChange={(e) =>
-                                handleChange(
-                                    'name',
-                                    e.target.value
-                                )
-                            }
+                            {...register('name', {
+                                required: true,
+                            })}
                         />
                     </div>
-
                     <div className="space-y-2">
                         <Label>
                             Rol
                         </Label>
                         <Select
-                            value={form.role}
-                            onValueChange={(v) =>
-                                handleChange(
-                                    'role',
-                                    v
-                                )
-                            }
+                            {...register('role', {
+                                required: true,
+                            })}
                         >
                             <SelectTrigger>
                                 <SelectValue placeholder="Seleccionar Rol" />
@@ -132,22 +95,16 @@ export function MemberFormDialog({
                             </SelectContent>
                         </Select>
                     </div>
-
                     <div className="space-y-2">
                         <Label> Email </Label>
                         <Input
                             type="email"
                             placeholder="usuario@email.com"
-                            value={form.email}
-                            onChange={(e) =>
-                                handleChange(
-                                    'email',
-                                    e.target.value
-                                )
-                            }
+                            {...register('email', {
+                                required: true,
+                            })}
                         />
                     </div>
-
                     <div className="flex justify-end gap-2 pt-4">
                         <Button
                             variant="outline"
@@ -155,15 +112,16 @@ export function MemberFormDialog({
                                 onOpenChange(false)
                             }
                         > Cancelar </Button>
-
-                        <Button onClick={handleSubmit}>
-                            Agregar
+                        <Button 
+                            type="submit"
+                            disabled={isPending}
+                        >
+                            Guardar gasto
                         </Button>
-
-                    </div>
-
-                </div>
-
+                    </div> 
+                     
+                </form>
+               
             </DialogContent>
 
         </Dialog>

@@ -30,11 +30,13 @@ export class ReportsService {
         pct: totalAmount ? Math.round((total / totalAmount) * 100) : 0,
       };
     });
+    
     const byMember = users.map((u) => ({
       userId: u.id,
       userName: u.name,
-      total: items.filter((e) => e.userId === u.id).reduce((s, e) => s + Number(e.amount), 0),
+      total: items.filter((e) => e.userId === u.authId).reduce((s, e) => s + Number(e.amount), 0),
     }));
+    
     return { totalAmount, byCategory, byMember, recent: items.slice(0, 10) };
   }
 

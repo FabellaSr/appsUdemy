@@ -3,16 +3,16 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateMemberDto {
 
   @ApiProperty()
-  email: string;
+  email!: string;
 
   @ApiProperty()
-  name: string;
+  name!: string;
 
   @ApiProperty({
     enum: ['ADMIN', 'MEMBER']
   })
-  role: 'ADMIN' | 'MEMBER';
+  role!: 'ADMIN' | 'MEMBER';
 
   @ApiProperty()
-  authId: string;
+  authId!: string;
 }

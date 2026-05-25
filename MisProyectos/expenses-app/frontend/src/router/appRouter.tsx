@@ -3,7 +3,7 @@ import MainLayout from '@/pages/layouts/MainLayout';
 import AuthLayout from '@/pages/layouts/AuthLayout';
 import AdminLayout from '@/pages/layouts/AdminLayout';
 import DashboardPage from '@/pages/DashboardPage'; 
-import ReportsPage from '@/pages/ReportsPage';
+import ReportsPage from '@/pages/reports/page/ReportsPage';
 import LoginPage from '@/pages/auth/page/LoginPage';
 import RegisterPage from '@/pages/auth/page/RegisterPage';
 import AdminDashboardPage from '@/pages/admin/page/AdminDashboardPage';

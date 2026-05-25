@@ -1,4 +1,4 @@
-export type Role = 'ADMIN' | 'MEMBER';
+export type Role = "ADMIN" | "MEMBER";
 
 export interface User {
   id: string;
@@ -6,24 +6,11 @@ export interface User {
   name: string;
   role: Role;
 }
-export interface Member extends User {}
 
 export interface Category {
   id: string;
   name: string;
   color?: string;
-}
-
-export interface Expense {
-  id: string;
-  date: string;
-  categoryId: string;
-  category?: Category;
-  concept: string;
-  amount: number;
-  userId: string;
-  user?: Pick<User, 'id' | 'name'>;
-  receiptUrl?: string;
 }
 
 export interface MonthlyClose {
@@ -41,39 +28,80 @@ export interface ApiResponse<T> {
 
 export interface ReportSummary {
   totalAmount: number;
-  byCategory: { categoryId: string; categoryName: string; total: number; pct: number }[];
+  byCategory: {
+    categoryId: string;
+    categoryName: string;
+    total: number;
+    pct: number;
+  }[];
   byMember: { userId: string; userName: string; total: number }[];
   recent: Expense[];
 }
 
-export interface ExpensesFormDialog {
-    open: boolean;
-    expense: Expense;
-    onOpenChange: (open: boolean) => void;
-    categories: Category[];
-    onCreated: () => Promise<void>;
-
-}
-
-export const ROLES: Role[] = [
-  'ADMIN',
-  'MEMBER',
-];
+export const ROLES: Role[] = ["ADMIN", "MEMBER"];
+/*Members*/
+export interface Member extends User {}
 export interface MemberFormDialog {
-  title: string;
-  subTitle: string;
-  onOpenChange: (open: boolean) => void; 
-  member: Member;
-  isPending: boolean;
+  open: boolean;
+  isPending?: boolean;
 
+  onOpenChange: (open: boolean) => void;
+  onSubmit: (memberLike: Partial<Member>) => Promise<void>;
 }
-
 export interface MemberFormProps {
   title: string;
   subTitle: string;
   member: Member;
   isPending: boolean;
   // Methods
-  onOpenChange: (open: boolean) => void; 
+  onOpenChange: (open: boolean) => void;
   onSubmit: (memberLike: Partial<Member>) => Promise<void>;
 }
+export interface MembersFormDialog {
+  open: boolean;
+  isPending?: boolean;
+
+  onOpenChange: (open: boolean) => void;
+  onSubmit: (memberLike: Partial<Member>) => Promise<void>;
+}
+export interface MemberFormValues {
+  email: string;
+  name: string;
+  role: Role;
+  authId: string;
+}
+/*Expenses*/
+export interface ExpensesFormDialog {
+  open: boolean;
+  categories: Category[];
+  isPending?: boolean;
+
+  onSubmit: (expenseLike: Partial<Expense>) => Promise<void>;
+  onOpenChange: (open: boolean) => void;
+}
+export interface Expense {
+  id: string;
+  date: string;
+  categoryId: string;
+  category?: Category;
+  concept: string;
+  amount: number;
+  userId: string;
+  user?: Pick<User, "id" | "name">;
+  receiptUrl?: string;
+}
+export interface ExpenseFormValues {
+  date: string;
+  categoryId: string;
+  concept: string;
+  amount: number;
+}
+
+// export interface ExpensesFormDialog {
+//     open: boolean;
+//     expense: Expense;
+//     onOpenChange: (open: boolean) => void;
+//     categories: Category[];
+//     onCreated: () => Promise<void>;
+
+// }

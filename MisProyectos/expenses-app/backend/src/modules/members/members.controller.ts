@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete,Put, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -25,7 +25,7 @@ export class MembersController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() body: CreateMemberDto,
+    @Body() body: UserEntity,
   ) {
     return this.membersService.update(id, body);
   }
@@ -39,7 +39,5 @@ export class MembersController {
     return this.membersService.remove(id);
   }
 }
-function Put(arg0: string): (target: MembersController, propertyKey: "update", descriptor: TypedPropertyDescriptor<(id: string, body: CreateMemberDto) => any>) => void | TypedPropertyDescriptor<...> {
-  throw new Error('Function not implemented.');
-}
+ 
 

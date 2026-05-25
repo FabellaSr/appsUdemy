@@ -1,60 +1,44 @@
 import { useState } from 'react';
 
-import { useMembers } from '@/hooks/useMembers';
-import { Navigate, useNavigate, useParams } from 'react-router';
 import { toast } from 'sonner';
 
-import { CustomFullScreenLoading } from '@/components/custom/CustomFullScreenLoading';
 import { Member } from '@/interfaces';
-import { MemberForm } from '../components/MemberForm'; 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { useMembers } from '../hooks/useMembers';
+import { useCreateMember } from '../hooks/useCreateMember';
+import NotFoundPage from '@/pages/NotFoundPage';
+import { MemberFormDialog } from '../components/MemberFormDialog';
 
 
 export default function MembersPage() {
+  
   const [open, setOpen] = useState(false);
-
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  const {
-    membersQuery,
-    memberQuery,
-    mutation } = useMembers(id || '');
-  const { data: members } = membersQuery;
-
-  const { data: member } = memberQuery;
-  const title = id === 'new' ? 'Nuevo miembro' : 'Editar miembro';
-  const subtitle =
-    id === 'new'
-      ? 'Aquí puedes crear un nuevo miembro.'
-      : 'Aquí puedes editar el miembro.';
+  const { data: members, error } = useMembers();
+  const createMember = useCreateMember();
 
 
   const handleSubmit = async (memberLike: Partial<Member>) => {
-    await mutation.mutateAsync(memberLike, {
-      onSuccess: () => {
-        toast.success('Miembro actualizado correctamente', {
-          position: 'top-right',
-        });
-        navigate(`/`);
-      },
-      onError: (error) => {
-        console.log(error);
-        toast.error('Error al actualizar el miembro');
-      },
-    });
+    const formData = new FormData();
+    formData.append('name', memberLike.name!);
+    formData.append('email', memberLike.email!);
+    formData.append('role', memberLike.role!);
+    try {
+      await createMember.mutateAsync(formData);
+      toast.success('Miembro creado correctamente');
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+      toast.error('Error al crear el miembro');
+    }
   };
 
-  if (memberQuery.isError) {
-    return <Navigate to="/" />;
-  }
-
-  if (memberQuery.isLoading) {
-    return <CustomFullScreenLoading />;
-  }
-  if (!member) {
-    return <Navigate to="/admin/members" />;
+  if (error) {
+    return (
+      <div className="p-6 text-red-500">
+        <NotFoundPage></NotFoundPage>
+      </div>
+    );
   }
 
   return (
@@ -71,7 +55,7 @@ export default function MembersPage() {
               <tr><th>Nombre</th><th>Email</th><th>Rol</th><th></th></tr>
             </thead>
             <tbody>
-              {members?.map((u) => (
+              {members.map((u) => (
                 <tr key={u.id} className="border-t">
                   <td className="py-2">{u.name}</td>
                   <td>{u.email}</td>
@@ -83,14 +67,10 @@ export default function MembersPage() {
           </table>
         </CardContent>
       </Card>
-      <MemberForm
-        title={title}
-        subTitle={subtitle}
-        member={member}
-        isPending={mutation.isPending}
-        onOpenChange={setOpen}
-        onSubmit={handleSubmit}
-      />
+      <MemberFormDialog 
+        open={open} 
+        onOpenChange={setOpen} 
+        onSubmit={handleSubmit} />
     </div>
   );
 }

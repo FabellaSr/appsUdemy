@@ -7,7 +7,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const queryClient = new QueryClient();
 export const ExpensesApp = () => {
   return (
-    <QueryClientProvider client={queryClient}>    <ThemeProvider>
+    <QueryClientProvider client={queryClient}> 
+    <ThemeProvider>
       <AuthProvider>
         <RouterProvider router={appRouter} />
         <Toaster richColors position="top-right" />

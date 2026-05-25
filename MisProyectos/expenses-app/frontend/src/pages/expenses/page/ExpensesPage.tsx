@@ -5,17 +5,20 @@ import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/shared/EmptyState';
 import { ExpenseFormDialog } from '../components/ExpensesFormDialog';
 
-import { useExpenses } from '@/hooks/expenses/useExpenses';
+import { useExpenses } from '@/pages/expenses/hooks/useExpenses';
 import { useCategories } from '@/hooks/useCategories';
 
 import NotFoundPage from '@/pages/NotFoundPage';
 import type { Expense } from '@/interfaces';
-import { useCreateExpense } from '@/hooks/expenses/useCreateExpense';
+import { useCreateExpense } from '@/pages/expenses/hooks/useCreateExpense';
 
 export const ExpensesPage = () => {
   const [open, setOpen] = useState(false); 
-  //const [items] = useState(mockExpenses);
-  const { data: expenses, error } = useExpenses();
+  const now = new Date();
+  const { data: expenses, error } = useExpenses(
+    now.getMonth() + 1,
+    now.getFullYear()    
+  );
   const { data: categories } = useCategories();
   const createExpenseMutation = useCreateExpense();
   
@@ -25,6 +28,7 @@ export const ExpensesPage = () => {
     formData.append('categoryId', expenseLike.categoryId!);
     formData.append('concept', expenseLike.concept!);
     formData.append('amount', String(expenseLike.amount));
+ 
     try {
       await createExpenseMutation.mutateAsync(formData);
       toast.success('Gasto creado correctamente');

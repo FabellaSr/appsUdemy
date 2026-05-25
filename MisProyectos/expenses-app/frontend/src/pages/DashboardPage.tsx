@@ -1,15 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useMonthlyReport } from '@/hooks/useReports';
-//import { mockReport } from '@/services/mocks';
+import {  useReportsByDate } from '@/pages/reports/hooks/useReportsByDate';
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis } from 'recharts';
 
 const COLORS = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#a855f7'];
 
 export default function DashboardPage() {
-  //const r = mockReport;
+ 
   const now = new Date();
 
-  const { data: report, loading } = useMonthlyReport(
+  const { data: report, loading } = useReportsByDate(
     now.getFullYear(),
     now.getMonth() + 1
   );
@@ -54,6 +53,7 @@ export default function DashboardPage() {
           <CardContent className="h-72">
             <ResponsiveContainer>
               <BarChart data={report.byMember}>
+                {console.log(report)}
                 <XAxis dataKey="userName" />
                 <YAxis />
                 <Tooltip />
