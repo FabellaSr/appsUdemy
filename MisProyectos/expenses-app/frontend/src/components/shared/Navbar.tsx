@@ -24,7 +24,7 @@ export function Navbar() {
           <Link to="/reports" className="hover:text-primary">Reportes</Link>
           
           {user?.role === 'ADMIN' && (
-            <Link to="/admin" className="hover:text-primary">Admin</Link>
+            <Link to="/admin" className="hover:text-primary">{user.name}</Link>
           )}
           <Button variant="ghost" size="icon" onClick={toggle} aria-label="Theme">
             {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}

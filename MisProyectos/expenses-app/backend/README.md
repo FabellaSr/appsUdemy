@@ -23,6 +23,8 @@ NestJS + TypeORM (SQL Server) + Mongoose (MongoDB para auth).
 
 Swagger UI: `http://localhost:3000/api/docs`
 
+net stop MongoDB
+
 registrer
 {
   "email": "admin@demo.com",

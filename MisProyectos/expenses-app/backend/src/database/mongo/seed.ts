@@ -20,7 +20,7 @@ async function main() {
     await Model.create({
       email: 'admin@demo.com',
       name: 'Admin Demo',
-      passwordHash: await bcrypt.hash('Admin123!', 10),
+      passwordHash: await bcrypt.hash('ferminfa$4', 10),
       role: 'ADMIN',
     });
      

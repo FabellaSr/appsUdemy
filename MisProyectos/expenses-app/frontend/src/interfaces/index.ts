@@ -40,7 +40,9 @@ export interface ReportSummary {
 
 export const ROLES: Role[] = ["ADMIN", "MEMBER"];
 /*Members*/
-export interface Member extends User {}
+export interface Member extends User {
+  authId: string;
+}
 export interface MemberFormDialog {
   open: boolean;
   isPending?: boolean;

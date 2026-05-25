@@ -11,16 +11,18 @@ import { useCategories } from '@/hooks/useCategories';
 import NotFoundPage from '@/pages/NotFoundPage';
 import type { Expense } from '@/interfaces';
 import { useCreateExpense } from '@/pages/expenses/hooks/useCreateExpense';
+import { useMembers } from '@/pages/members/hooks/useMembers';
+
 
 export const ExpensesPage = () => {
   const [open, setOpen] = useState(false); 
-  const now = new Date();
-  const { data: expenses, error } = useExpenses(
-    now.getMonth() + 1,
-    now.getFullYear()    
+ 
+  const { data: expenses, error } = useExpenses( 
   );
   const { data: categories } = useCategories();
   const createExpenseMutation = useCreateExpense();
+  const { data: users } = useMembers();
+
   
   const handleSubmit = async (expenseLike: Partial<Expense>) => {
     const formData = new FormData();
@@ -46,7 +48,7 @@ export const ExpensesPage = () => {
       </div>
     );
   }
-
+  
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -64,7 +66,7 @@ export const ExpensesPage = () => {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="text-left text-muted-foreground">
-                  <tr><th className="py-2">Fecha</th><th>Categoría</th><th>Concepto</th><th className="text-right">Monto</th></tr>
+                  <tr><th className="py-2">Fecha</th><th>Categoría</th><th>Concepto</th><th>Usuario</th><th className="text-right">Monto</th></tr>
                 </thead>
                 <tbody>
                   {expenses.map((e) => (
@@ -72,6 +74,7 @@ export const ExpensesPage = () => {
                       <td className="py-2">{e.date}</td>
                       <td>{categories.find((c) => c.id === e.categoryId)?.name}</td>
                       <td>{e.concept}</td>
+                      <td>{users.find((c) => c.authId === e.userId)?.name }</td>
                       <td className="text-right">${e.amount.toLocaleString()}</td>
                     </tr>
                   ))}
