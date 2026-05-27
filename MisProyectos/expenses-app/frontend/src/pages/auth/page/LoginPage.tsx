@@ -9,15 +9,15 @@ import { useAuth } from '@/auth/useAuth';
 import { toast } from 'sonner';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('admin2@demo.com');
+  const [password, setPassword] = useState('ferminfabella4$');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setAuth } = useAuth();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setLoading(true); 
     try {
       const res = await authService.login({ email, password });
       setAuth(res.user, res.accessToken);

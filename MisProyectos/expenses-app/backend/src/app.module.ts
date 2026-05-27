@@ -11,6 +11,8 @@ import { ExpensesModule } from './modules/expenses/expenses.module';
 import { MembersModule } from './modules/members/members.module';
 import { ReportsModule } from './modules/reports/reports.module';
 import { MonthlyCloseModule } from './modules/monthly-close/monthly-close.module';
+import { SharedFundsModule } from './modules/shared-funds/shared-funds.module';
+import { MemberSalariesModule } from './modules/member-salaries/member-salaries.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { MonthlyCloseModule } from './modules/monthly-close/monthly-close.module
     MembersModule,
     ReportsModule,
     MonthlyCloseModule,
+    SharedFundsModule,
+    MemberSalariesModule,
   ],
 })
 export class AppModule {}
