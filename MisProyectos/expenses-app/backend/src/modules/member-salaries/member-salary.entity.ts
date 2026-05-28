@@ -1,5 +1,3 @@
-// modules/member-salaries/member-salary.entity.ts
-
 import {
   Column,
   Entity,

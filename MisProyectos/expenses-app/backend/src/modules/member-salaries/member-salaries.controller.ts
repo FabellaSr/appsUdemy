@@ -30,6 +30,7 @@ import { MemberSalaryDto } from './dto/member-salary.dto';
 @ApiTags('member-salaries')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('ADMIN')
 @Controller('member-salaries')
 export class MemberSalariesController {
   constructor(

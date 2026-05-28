@@ -1,7 +1,5 @@
 import { Body, Controller, Delete,Put, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { JwtAuthGuard } from '../../middleware/jwt-auth.guard';
 import { RolesGuard } from '../../middleware/roles.guard';
 import { Roles } from '../../middleware/roles.decorator';

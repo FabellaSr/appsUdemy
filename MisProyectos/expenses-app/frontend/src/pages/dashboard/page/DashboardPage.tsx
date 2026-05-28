@@ -9,20 +9,19 @@ import { CategoryChart } from '../components/CategoryChart';
 import { MembersChart } from '../components/MembersChart';
 import { BalancesCard } from '../components/BalancesCard';
 import { calculateDebts } from '../utils/CalculaDebts';
+import { SharedFundCard } from '../../shared-funds/components/SharedFundCard';
  
 
 
 export default function DashboardPage() {
   const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
 
-  const { data: report, loading } = useReportsByDate(
-    now.getFullYear(),
-    now.getMonth() + 1
-  );
+  const { data: report, loading } = useReportsByDate(year, month);
 
   const debts = useMemo(() => {
     if (!report) return [];
-
     return calculateDebts(report);
   }, [report]);
 
@@ -32,9 +31,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold">
-        Dashboard
-      </h1>
+      <h1 className="text-2xl font-semibold">Dashboard</h1>
 
       <div className="grid gap-4 md:grid-cols-3">
         <SummaryCard
@@ -55,10 +52,9 @@ export default function DashboardPage() {
 
       <div className="grid gap-4 md:grid-cols-2">
         <CategoryChart data={report.byCategory} />
-
         <MembersChart data={report.byMember} />
-
         <BalancesCard debts={debts} />
+        <SharedFundCard year={year} month={month} />
       </div>
     </div>
   );

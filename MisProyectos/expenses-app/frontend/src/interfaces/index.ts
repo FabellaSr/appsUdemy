@@ -98,6 +98,38 @@ export interface ExpenseFormValues {
   concept: string;
   amount: number;
 }
+export interface SharedFund {
+  id: number;
+  year: number;
+  month: number;
+  targetAmount: number;
+  createdAt: string;
+}
+
+export interface MemberSalary {
+  id: number;
+  userId: string;
+  user: Pick<User, 'id' | 'name'>;
+  year: number;
+  month: number;
+  salary: number;
+}
+
+export interface SalaryBreakdownItem {
+  userId: string;
+  name: string;
+  salary: number;
+  percentage: number;
+  contribution: number;
+}
+
+/*export interface SharedFundBreakdown {
+  year: number;
+  month: number;
+  targetAmount: number;
+  totalSalaries: number;
+  breakdown: SalaryBreakdownItem[];
+}*/
 
 // export interface ExpensesFormDialog {
 //     open: boolean;
