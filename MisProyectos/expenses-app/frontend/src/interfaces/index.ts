@@ -34,8 +34,13 @@ export interface ReportSummary {
     total: number;
     pct: number;
   }[];
-  byMember: { userId: string; userName: string; total: number }[];
+  byMember: ReportMember[];
   recent: Expense[];
+}
+ export interface ReportMember {
+  userId: string;
+  userName: string;
+  total: number;
 }
 
 export const ROLES: Role[] = ["ADMIN", "MEMBER"];
@@ -72,6 +77,14 @@ export interface MemberFormValues {
   role: Role;
   authId: string;
 }
+export interface MemberSalary {
+  id: number;
+  userId: string;
+  user: Pick<User, 'id' | 'name'>;
+  year: number;
+  month: number;
+  salary: number;
+}
 /*Expenses*/
 export interface ExpensesFormDialog {
   open: boolean;
@@ -98,22 +111,7 @@ export interface ExpenseFormValues {
   concept: string;
   amount: number;
 }
-export interface SharedFund {
-  id: number;
-  year: number;
-  month: number;
-  targetAmount: number;
-  createdAt: string;
-}
-
-export interface MemberSalary {
-  id: number;
-  userId: string;
-  user: Pick<User, 'id' | 'name'>;
-  year: number;
-  month: number;
-  salary: number;
-}
+/*Salary*/
 
 export interface SalaryBreakdownItem {
   userId: string;
@@ -131,6 +129,13 @@ export interface SharedFundBreakdown {
   breakdown: SalaryBreakdownItem[];
 }
 
+export interface SharedFund {
+  id: number;
+  year: number;
+  month: number;
+  targetAmount: number;
+  createdAt: string;
+}
 // export interface ExpensesFormDialog {
 //     open: boolean;
 //     expense: Expense;

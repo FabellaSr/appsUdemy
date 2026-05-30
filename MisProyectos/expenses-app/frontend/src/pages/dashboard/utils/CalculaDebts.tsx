@@ -1,7 +1,12 @@
-// pages/dashboard/utils/calculateDebts.ts
+import { ReportMember, ReportSummary } from "@/interfaces";
 
-export function calculateDebts(report: any) {
-  const balances = report.byMember.map((member: any) => ({
+export function calculateDebts(report: ReportSummary) {
+  if (!report?.byMember?.length) {
+    console.log(report.byCategory,report.byMember,report.recent);
+    return [];
+  }
+
+  const balances = report.byMember.map((member: ReportMember) => ({
     userName: member.userName,
     balance:
       member.total -
@@ -9,12 +14,12 @@ export function calculateDebts(report: any) {
   }));
 
   const creditors = balances
-    .filter((b: any) => b.balance > 0)
-    .sort((a: any, b: any) => b.balance - a.balance);
+    .filter((b: { balance: number; }) => b.balance > 0)
+    .sort((a: { balance: number; }, b: { balance: number; }) => b.balance - a.balance);
 
   const debtors = balances
-    .filter((b: any) => b.balance < 0)
-    .sort((a: any, b: any) => a.balance - b.balance);
+    .filter((b: { balance: number; }) => b.balance < 0)
+    .sort((a: { balance: number; }, b: { balance: number; }) => a.balance - b.balance);
 
   const debts: string[] = [];
 
