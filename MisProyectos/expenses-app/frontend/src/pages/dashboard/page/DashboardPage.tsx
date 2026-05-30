@@ -9,7 +9,7 @@ import { CategoryChart } from '../components/CategoryChart';
 import { MembersChart } from '../components/MembersChart';
 import { BalancesCard } from '../components/BalancesCard';
 import { calculateDebts } from '../utils/CalculaDebts';
-import { SharedFundCard } from '../../shared-funds/components/SharedFundCard';
+import { SharedFundCard } from '../../shared-funds/page/SharedFundCardPage';
  
 
 

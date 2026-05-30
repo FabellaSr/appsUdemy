@@ -59,7 +59,7 @@ export class SharedFundsController {
 
   @Roles('ADMIN')
   @Post()
-  create(@Body() dto: SharedFundDto) {
+  create(@Body() dto: SharedFundDto) { 
     return this.svc.create(dto);
   }
 

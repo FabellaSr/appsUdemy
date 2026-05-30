@@ -123,13 +123,13 @@ export interface SalaryBreakdownItem {
   contribution: number;
 }
 
-/*export interface SharedFundBreakdown {
+export interface SharedFundBreakdown {
   year: number;
   month: number;
   targetAmount: number;
   totalSalaries: number;
   breakdown: SalaryBreakdownItem[];
-}*/
+}
 
 // export interface ExpensesFormDialog {
 //     open: boolean;

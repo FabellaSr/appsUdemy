@@ -90,12 +90,12 @@ export class SharedFundsService {
    */
   async getBreakdown(year: number, month: number): Promise<SharedFundBreakdown> {
     const fund = await this.repo.findOne({ where: { year, month } });
+
     if (!fund) {
       throw new NotFoundException(
         `No existe un fondo compartido para ${month}/${year}`,
       );
-    }
- 
+    } 
     const salaries = await this.memberSalariesService.getByMonth(year, month);
     if (!salaries.length) {
       throw new NotFoundException(

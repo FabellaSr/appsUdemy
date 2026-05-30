@@ -1,5 +1,17 @@
+import { IsNumber, IsPositive } from 'class-validator';
+import { Type } from 'class-transformer';
+
 export class SharedFundDto {
-  year!: number;
-  month!: number;
-  targetAmount!: number;
+  @IsNumber()
+  @Type(() => Number)
+  year: number;
+
+  @IsNumber()
+  @Type(() => Number)
+  month: number;
+
+  @IsNumber()
+  @IsPositive()
+  @Type(() => Number)
+  targetAmount: number;
 }

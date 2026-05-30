@@ -1,5 +1,6 @@
-import { SharedFund, SharedFundBreakdown } from '@/interfaces';
+import { SharedFund} from '@/interfaces';
 import { api } from './api';
+import { SharedFundBreakdown } from '@/pages/shared-funds';
 
 
 export const sharedFundsService = {
@@ -13,7 +14,7 @@ export const sharedFundsService = {
     api.get<SharedFundBreakdown>(`/shared-funds/${year}/${month}/breakdown`,).then((r) => r.data),
 
   create: (body: { year: number; month: number; targetAmount: number;}) => 
-    api.post('/shared-funds', body).then((r) => r.data),
+    api.post('/shared-funds/', body).then((r) => r.data),
 
   update: ( id: number, body: Partial<{ year: number; month: number; targetAmount: number;
     }>,) =>
