@@ -22,6 +22,7 @@ export default function DashboardPage() {
 
   const debts = useMemo(() => {
     if (!report) return [];
+    console.log(report.byCategory);
     return calculateDebts(report);
   }, [report]);
 

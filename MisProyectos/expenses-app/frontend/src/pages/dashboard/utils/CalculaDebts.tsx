@@ -1,8 +1,7 @@
 import { ReportMember, ReportSummary } from "@/interfaces";
 
 export function calculateDebts(report: ReportSummary) {
-  if (!report?.byMember?.length) {
-    console.log(report.byCategory,report.byMember,report.recent);
+  if (!report?.byMember?.length) { 
     return [];
   }
 
