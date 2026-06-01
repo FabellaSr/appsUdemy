@@ -1,5 +1,3 @@
-// modules/member-salaries/member-salaries.controller.ts
-
 import {
   Body,
   Controller,
@@ -26,6 +24,7 @@ import { Roles } from '../../middleware/roles.decorator';
 import { MemberSalariesService } from './member-salaries.service';
 
 import { MemberSalaryDto } from './dto/member-salary.dto';
+import { UpdateMemberSalaryDto } from './dto/update-member-salary.dto';
 
 @ApiTags('member-salaries')
 @ApiBearerAuth()
@@ -35,12 +34,12 @@ import { MemberSalaryDto } from './dto/member-salary.dto';
 export class MemberSalariesController {
   constructor(
     private svc: MemberSalariesService,
-  ) {}
+  ) { }
 
   @Get()
   list() {
     return this.svc.list();
-  }
+  } 
 
   @Get('current')
   current(
@@ -55,31 +54,20 @@ export class MemberSalariesController {
 
   @Roles('ADMIN')
   @Post()
-  create(
-    @Body() dto: MemberSalaryDto,
-  ) {
+  create(@Body() dto: MemberSalaryDto) {
     return this.svc.create(dto);
   }
 
   @Roles('ADMIN')
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() dto: Partial<MemberSalaryDto>,
-  ) {
-    return this.svc.update(
-      Number(id),
-      dto,
-    );
+  update(@Param('id') id: string, @Body() dto: UpdateMemberSalaryDto,) {
+    //console.log("aca", dto, id);
+    return this.svc.update(id, dto);
   }
 
   @Roles('ADMIN')
   @Delete(':id')
-  remove(
-    @Param('id') id: string,
-  ) {
-    return this.svc.remove(
-      Number(id),
-    );
+  remove(@Param('id') id: string) {
+    return this.svc.remove(Number(id));
   }
 }
