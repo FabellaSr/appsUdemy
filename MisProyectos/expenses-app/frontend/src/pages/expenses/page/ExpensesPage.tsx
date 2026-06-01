@@ -17,8 +17,7 @@ import { useMembers } from '@/pages/members/hooks/useMembers';
 export const ExpensesPage = () => {
   const [open, setOpen] = useState(false); 
  
-  const { data: expenses, error } = useExpenses( 
-  );
+  const { data: expenses, error } = useExpenses();
   const { data: categories } = useCategories();
   const createExpenseMutation = useCreateExpense();
   const { data: users } = useMembers();
@@ -58,6 +57,7 @@ export const ExpensesPage = () => {
         </Button>
       </div>
       <Card>
+
         <CardHeader><CardTitle>Listado</CardTitle></CardHeader>
         <CardContent>
           {expenses.length === 0 ? (
@@ -84,6 +84,7 @@ export const ExpensesPage = () => {
           )}
         </CardContent>
       </Card>
+
       <ExpenseFormDialog
         open={open}
         onOpenChange={setOpen}

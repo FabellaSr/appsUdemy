@@ -1,14 +1,8 @@
-// pages/dashboard/DashboardPage.tsx
-
-import { useMemo } from 'react';
-
 import { useReportsByDate } from '@/pages/reports/hooks/useReportsByDate';
-
 import { SummaryCard } from '../components/SummaryCard';
 import { CategoryChart } from '../components/CategoryChart';
 import { MembersChart } from '../components/MembersChart';
-import { BalancesCard } from '../components/BalancesCard';
-import { calculateDebts } from '../utils/CalculaDebts';
+import { BalancesCard } from '../components/BalancesCard'; 
 import { SharedFundCard } from '../../shared-funds/page/SharedFundCardPage';
  
 
@@ -20,11 +14,7 @@ export default function DashboardPage() {
 
   const { data: report, loading } = useReportsByDate(year, month);
 
-  const debts = useMemo(() => {
-    if (!report) return [];
-    console.log(report.byCategory);
-    return calculateDebts(report);
-  }, [report]);
+  const debts = report?.debts ?? [];
 
   if (loading || !report) {
     return <div>Cargando...</div>;

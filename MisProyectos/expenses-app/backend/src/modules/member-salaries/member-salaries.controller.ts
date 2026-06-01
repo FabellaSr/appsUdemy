@@ -61,7 +61,6 @@ export class MemberSalariesController {
   @Roles('ADMIN')
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateMemberSalaryDto,) {
-    //console.log("aca", dto, id);
     return this.svc.update(id, dto);
   }
 

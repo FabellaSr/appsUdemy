@@ -29,6 +29,7 @@ export function SharedFundCard({ year, month }: SharedProps) {
     ? Math.max(...breakdown.breakdown.map((b) => b.contribution))
     : 1;
 
+  const fundOk = (fund?.targetAmount ?? 0) > 0; 
   return (
     <>
       <Card>
@@ -38,7 +39,7 @@ export function SharedFundCard({ year, month }: SharedProps) {
 
         <CardContent>
           
-          {loadingFund && (
+           {loadingFund && (
             <div className="space-y-3">
               {[1, 2].map((i) => (
                 <div key={i} className="space-y-1 animate-pulse">
@@ -49,7 +50,7 @@ export function SharedFundCard({ year, month }: SharedProps) {
             </div>
           )}
 
-          {noFund && !loadingFund && (
+          {!noFund && !loadingFund && !fundOk && (
             <div className="flex flex-col items-start gap-3">
               <p className="text-sm text-muted-foreground">
                 No hay fondo cargado para este mes.

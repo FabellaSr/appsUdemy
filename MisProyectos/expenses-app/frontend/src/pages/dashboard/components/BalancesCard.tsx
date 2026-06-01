@@ -3,10 +3,12 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/components/ui/card'; 
+
+import type { ReportDebt } from '@/interfaces';
 
 interface Props {
-  debts: string[];
+  debts: ReportDebt[];
 }
 
 export function BalancesCard({ debts }: Props) {
@@ -23,7 +25,8 @@ export function BalancesCard({ debts }: Props) {
               key={index}
               className="text-sm font-medium"
             >
-              {debt}
+              {debt.from} le debe $
+              {debt.amount.toLocaleString()} a {debt.to}
             </div>
           ))
         ) : (

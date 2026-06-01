@@ -26,17 +26,28 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
+
+export interface ReportDebt {
+  from: string;
+  to: string;
+  amount: number;
+}
+
 export interface ReportSummary {
   totalAmount: number;
-  byCategory: {
+  byCategory: ReportCategory[];
+  byMember: ReportMember[];
+  debts: ReportDebt[];
+  recent: Expense[];
+}
+
+export interface ReportCategory{
     categoryId: string;
     categoryName: string;
     total: number;
     pct: number;
-  }[];
-  byMember: ReportMember[];
-  recent: Expense[];
 }
+
  export interface ReportMember {
   userId: string;
   userName: string;

@@ -11,7 +11,7 @@ export class ReportsService {
     @InjectRepository(ExpenseEntity) private expenses: Repository<ExpenseEntity>,
     @InjectRepository(CategoryEntity) private categories: Repository<CategoryEntity>,
     @InjectRepository(UserEntity) private users: Repository<UserEntity>,
-  ) {}
+  ) { }
 
   async monthly(year: number, month: number) {
     const start = new Date(year, month - 1, 1).toISOString().slice(0, 10);
@@ -21,6 +21,7 @@ export class ReportsService {
     const users = await this.users.find();
 
     const totalAmount = items.reduce((s, e) => s + Number(e.amount), 0);
+
     const byCategory = cats.map((c) => {
       const total = items.filter((e) => e.categoryId === c.id).reduce((s, e) => s + Number(e.amount), 0);
       return {
@@ -30,14 +31,16 @@ export class ReportsService {
         pct: totalAmount ? Math.round((total / totalAmount) * 100) : 0,
       };
     });
-    
+
     const byMember = users.map((u) => ({
       userId: u.id,
       userName: u.name,
       total: items.filter((e) => e.userId === u.authId).reduce((s, e) => s + Number(e.amount), 0),
     }));
-    
-    return { totalAmount, byCategory, byMember, recent: items.slice(0, 10) };
+
+    const debts = this.calculateDebts(totalAmount, byMember);
+
+    return { totalAmount, byCategory, byMember, debts, recent: items.slice(0, 10) };
   }
 
   async member(userId: string, year: number, month: number) {
@@ -46,5 +49,67 @@ export class ReportsService {
     const expenses = await this.expenses.find({ where: { userId, date: Between(start, end) } });
     const total = expenses.reduce((s, e) => s + Number(e.amount), 0);
     return { total, expenses };
+  }
+
+
+  private calculateDebts(
+    totalAmount: number,
+    byMember: {
+      userId: string;
+      userName: string;
+      total: number;
+    }[],
+  ) {
+    if (!byMember.length) {
+      return [];
+    }
+
+    const average = totalAmount / byMember.length;
+
+    const balances = byMember.map((member) => ({
+      userName: member.userName,
+      balance: member.total - average,
+    }));
+
+    const creditors = balances
+      .filter((b) => b.balance > 0)
+      .sort((a, b) => b.balance - a.balance);
+
+    const debtors = balances
+      .filter((b) => b.balance < 0)
+      .sort((a, b) => a.balance - b.balance);
+
+    const debts: {
+      from: string;
+      to: string;
+      amount: number;
+    }[] = [];
+
+    let i = 0;
+    let j = 0;
+
+    while (i < debtors.length && j < creditors.length) {
+      const debtor = debtors[i];
+      const creditor = creditors[j];
+
+      const amount = Math.min(
+        Math.abs(debtor.balance),
+        creditor.balance,
+      );
+
+      debts.push({
+        from: debtor.userName,
+        to: creditor.userName,
+        amount: Math.round(amount),
+      });
+
+      debtor.balance += amount;
+      creditor.balance -= amount;
+
+      if (Math.abs(debtor.balance) < 1) i++;
+      if (Math.abs(creditor.balance) < 1) j++;
+    }
+
+    return debts;
   }
 }

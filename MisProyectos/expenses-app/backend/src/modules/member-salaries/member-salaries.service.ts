@@ -47,12 +47,10 @@ export class MemberSalariesService {
   }
 
   async update( userId: string, dto: Partial<MemberSalaryDto>) {
-    console.log("aca", dto, userId);
     const salary = await this.repo.findOneBy({ userId });
     if (!salary) {
       throw new NotFoundException();
     }
-    console.log("salario",salary);
     Object.assign(salary, dto);
     return this.repo.save(salary);
   }
