@@ -7,6 +7,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { authService } from '@/services/authService';
 import { useAuth } from '@/auth/useAuth';
 import { toast } from 'sonner';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('admin2@demo.com');
@@ -14,10 +21,13 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { setAuth } = useAuth();
-
+  const USERS = [
+    { email: 'admin2@demo.com', name: 'Iván' },
+    { email: 'aldi2@demo.com', name: 'Aldana' },
+  ];
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true); 
+    setLoading(true);
     try {
       const res = await authService.login({ email, password });
       setAuth(res.user, res.accessToken);
@@ -50,6 +60,24 @@ export default function LoginPage() {
           </Button>
         </form>
       </CardContent>
+      <div className="space-y-2">
+        <Label>Usuario</Label>
+
+        <Select value={email} onValueChange={setEmail}>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+
+          <SelectContent>
+            {USERS.map((user) => (
+              <SelectItem key={user.email} value={user.email}>
+                {user.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     </Card>
+
   );
 }

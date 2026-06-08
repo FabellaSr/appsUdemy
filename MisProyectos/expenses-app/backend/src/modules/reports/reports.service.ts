@@ -40,7 +40,7 @@ export class ReportsService {
 
     const debts = this.calculateDebts(totalAmount, byMember);
 
-    return { totalAmount, byCategory, byMember, debts, recent: items.slice(0, 10) };
+    return { totalAmount, byCategory, byMember, debts, recent: items };
   }
 
   async member(userId: string, year: number, month: number) {

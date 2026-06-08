@@ -9,14 +9,18 @@ export function useCreateExpense() {
     mutationFn: expensesService.create,
 
     onSuccess: (expense: Expense) => {
-      queryClient.invalidateQueries({
-        queryKey: ['expenses'],
-      });
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
 
-      queryClient.setQueryData(
-        ['expense', { id: expense.id }],
-        expense
-      );
+      // Invalida la lista de gastos
+      queryClient.invalidateQueries({ queryKey: ['expenses'] });
+
+      // FIX: también invalida el reporte del dashboard para que se
+      // actualice inmediatamente sin esperar el staleTime de 5 min.
+      queryClient.invalidateQueries({ queryKey: ['reports', year, month] });
+
+      queryClient.setQueryData(['expense', { id: expense.id }], expense);
     },
   });
 }

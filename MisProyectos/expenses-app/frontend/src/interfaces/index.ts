@@ -97,6 +97,10 @@ export interface MemberSalary {
   salary: number;
 }
 /*Expenses*/
+export interface UseExpensesParams {
+  month?: number;
+  year?: number;
+}
 export interface ExpensesFormDialog {
   open: boolean;
   categories: Category[];

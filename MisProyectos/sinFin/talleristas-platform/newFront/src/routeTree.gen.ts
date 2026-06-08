@@ -8,11 +8,11 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as SumarmeRouteImport } from './routes/sumarme'
-import { Route as SobreRouteImport } from './routes/sobre'
+import { Route as rootRouteImport } from './routes/__root.tsx'
+import { Route as SumarmeRouteImport } from './routes/sumarme.tsx'
+import { Route as SobreRouteImport } from './routes/sobre.tsx'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TSlugRouteImport } from './routes/t.$slug'
+import { Route as TSlugRouteImport } from './routes/t.$slug.tsx'
 
 const SumarmeRoute = SumarmeRouteImport.update({
   id: '/sumarme',

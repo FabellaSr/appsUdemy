@@ -24,6 +24,16 @@ NestJS + TypeORM (SQL Server) + Mongoose (MongoDB para auth).
 Swagger UI: `http://localhost:3000/api/docs`
 
 net stop MongoDB
+# SQL Server (casa, Windows)
+docker compose -f docker-compose.mssql.yml up -d
+
+# PostgreSQL (hosting gratuito en la nube)
+docker compose -f docker-compose.postgres.yml up -d
+
+
+npm install pg
+npm install -D @types/pg
+
 
 registrer
 {
@@ -31,9 +41,15 @@ registrer
   "password": "serusui4$",
   "name":"Ivano"
 }
+  { 
+    "email": "admin2@demo.com",
+    "name": "Ivano",
+    "role": "ADMIN",
+    "password" : "ferminfabella4$"
+  }
 { 
-  "email": "admin2@demo.com",
-  "name": "Ivano",
+  "email": "aldi2@demo.com",
+  "name": "Aldana",
   "role": "ADMIN",
   "password" : "ferminfabella4$"
 }

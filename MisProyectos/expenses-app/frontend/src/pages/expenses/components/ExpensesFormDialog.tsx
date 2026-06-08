@@ -29,6 +29,7 @@ export function ExpenseFormDialog({
     onSubmit,
     isPending,
 }: ExpensesFormDialog) {
+    const today = new Date().toISOString().split('T')[0];
     const {
         register,
         handleSubmit,
@@ -37,7 +38,7 @@ export function ExpenseFormDialog({
         reset,
     } = useForm<ExpenseFormValues>({
         defaultValues: {
-            date: '',
+            date: today,
             categoryId: '',
             concept: '',
             amount: 0,
@@ -47,7 +48,12 @@ export function ExpenseFormDialog({
 
     const handleFormSubmit = async ( values: ExpenseFormValues ) => {
         await onSubmit(values);
-        reset();
+        reset({
+            date: new Date().toISOString().split('T')[0],
+            categoryId: '',
+            concept: '',
+            amount: 0,
+        });
         onOpenChange(false);
     };
 

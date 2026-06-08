@@ -1,11 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { expensesService } from '@/services/expensesService';
-import type { Expense } from '@/interfaces';
-
-interface UseExpensesParams {
-  month?: number;
-  year?: number;
-}
+import type { Expense, UseExpensesParams } from '@/interfaces';
 
 export function useExpenses(params?: UseExpensesParams) {
   
