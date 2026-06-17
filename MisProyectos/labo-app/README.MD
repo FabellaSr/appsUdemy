@@ -209,3 +209,31 @@ npx ts-node src/database/sql/seeds/run.ts
 - En `production`, `synchronize` está desactivado para evitar pérdida de datos accidental.
 - Los archivos subidos (uploads) se persisten en un volumen Docker en `app/assets/uploads`.
 - No commitear el `.env` — usar `.env.example` como referencia.
+
+
+npm i -g @nestjs/cli
+nest new nombre-proyecto
+cd nombre-proyecto
+
+# TypeORM + drivers de base de datos
+npm install @nestjs/typeorm typeorm mssql pg
+
+# Mongoose (MongoDB)
+npm install @nestjs/mongoose mongoose
+
+# Config (.env)
+npm install @nestjs/config
+
+# Auth
+npm install @nestjs/jwt @nestjs/passport passport passport-jwt bcryptjs
+npm install -D @types/passport-jwt @types/bcryptjs
+
+# Validación
+npm install class-validator class-transformer
+
+# Multer (uploads de archivos, para los recibos)
+npm install @types/multer
+
+nest g module modules/auth
+nest g module modules/users
+nest g resource modules/expenses

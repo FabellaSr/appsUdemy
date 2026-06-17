@@ -35,7 +35,7 @@ export class ReportsService {
     const byMember = users.map((u) => ({
       userId: u.id,
       userName: u.name,
-      total: items.filter((e) => e.userId === u.authId).reduce((s, e) => s + Number(e.amount), 0),
+      total: items.filter((e) => e.userId === u.id).reduce((s, e) => s + Number(e.amount), 0),
     }));
 
     const debts = this.calculateDebts(totalAmount, byMember);

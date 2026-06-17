@@ -13,6 +13,4 @@ export class CreateMemberDto {
   })
   role!: 'ADMIN' | 'MEMBER';
 
-  @ApiProperty()
-  authId!: string;
 }

@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: expenses_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: YourStrong!Passw0rd
+      POSTGRES_DB: expenses
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Ejecuta el script de creación de tablas al iniciar por primera vez
+      - ./src/database/sql/seeds/createTable.sql:/docker-entrypoint-initdb.d/01_schema.sql
+
+volumes:
+  postgres_data:

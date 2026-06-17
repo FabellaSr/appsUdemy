@@ -32,14 +32,13 @@ export const ExpensesPage = () => {
     [categories],
   );
   const userMap = useMemo(
-    () => Object.fromEntries(users.map((u) => [u.authId, u.name])),
+    () => Object.fromEntries(users.map((u) => [u.id, u.name])),
     [users],
   );
 
   // Paginación simple en cliente
   const totalPages = Math.ceil(expenses.length / PAGE_SIZE);
   const paginated = expenses.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
   const handleSubmit = async (expenseLike: Partial<Expense>) => {
     const formData = new FormData();
     formData.append('date', expenseLike.date!);

@@ -1,18 +1,16 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { AuthUser, AuthUserSchema } from './schemas/user.schema';
 import { JwtStrategy } from './jwt.strategy';
-import { MembersModule } from '../members/members.module';
+import { UserEntity } from '../users/user.entity';
 
 @Module({
   imports: [
-    MembersModule,
     PassportModule,
-    MongooseModule.forFeature([{ name: AuthUser.name, schema: AuthUserSchema }]),
+    TypeOrmModule.forFeature([UserEntity]),
     JwtModule.register({
       secret: process.env.JWT_SECRET ?? 'change-me',
       signOptions: { expiresIn: process.env.JWT_EXPIRES_IN ?? '1d' },

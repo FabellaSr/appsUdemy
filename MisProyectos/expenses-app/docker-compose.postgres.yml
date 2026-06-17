@@ -1,5 +1,4 @@
-# Uso: docker compose -f docker-compose.postgres.yml up -d
-version: '3.9'
+
 services:
   postgres:
     image: postgres:16-alpine
@@ -14,7 +13,7 @@ services:
 
   backend:
     build: ./backend
-    env_file: .env.postgres
+    env_file: .env
     environment:
       NODE_ENV: production
       MONGO_URI: "mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongo:27017/${MONGO_DB}?authSource=admin"

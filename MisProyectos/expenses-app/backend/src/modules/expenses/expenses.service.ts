@@ -19,8 +19,7 @@ export class ExpensesService {
     return this.repo.find({ where, order: { date: 'DESC' } });
   }
 
-  create(dto: CreateExpenseDto, userId: string, receiptUrl?: string) {
-    console.log(dto, userId, receiptUrl);
+  create(dto: CreateExpenseDto, userId: string, receiptUrl?: string) { 
     return this.repo.save(this.repo.create({ ...dto, userId: dto.userId ?? userId, receiptUrl }));
   }
 
